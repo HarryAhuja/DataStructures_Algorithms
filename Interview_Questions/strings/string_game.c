@@ -18,10 +18,28 @@
  * 
  * Sample Input1
  * Source = "abc", target= "ddd", k=3
- * Output=yes
+ * Output = yes
  * a is shifted 3 times to become d
  * b is shifted 2 times to become d
  * c is shifted 1 times to become d
+ * 
+ * Sample Input2
+ * Source = "axc", target= "dad", k=3
+ * Output = No as a to d and x to a both takes 3 units
+ * 
+ * Sample Input3
+ * Source = "axc", target= "dad", k=29
+ * Output = Yes as a to d and x to a both takes 3(or3+26=29) units 
+ * 
+ * Sample Input4
+ * Source = "axa", target= "dad", k=29
+ * Output = no as first a to d and x to a took 3(or3+26=29) units. 
+ *          Last a to d has no choice 
+ * 
+ * Sample Input5
+ * Source = "axa", target= "dad", k=55
+ * Output = Yes as first a to d and x to a took 3(or3+26=29) units. 
+ *          Last a to d took 3+26+26=55 units
  * 
  * Tips
  * -> char can shift towards positive side or negative side to reach target
@@ -39,8 +57,11 @@
 
 #define MAX_ALPHABET_SIZE   26
 #define OUT                 printf
+#define MAX_LENGTH          1000
 
-uint8_t visited[26];
+// Make it MAX_LEN to store circular rotated values also
+// 26 will limit the circular rotation 
+uint8_t visited[MAX_LENGTH];            
 
 void init()
 {
@@ -58,10 +79,11 @@ void is_conversion_possible(char source[], char target[], int k)
         return;
     }
 
-    uint16_t i    = 0;      // Iterator
-    uint16_t t    = 0;      // target char offset
-    uint16_t s    = 0;      // Source char offset
-    int      diff = 0;      // target and source char offset diff
+    uint16_t i           = 0;      // Iterator
+    uint16_t t           = 0;      // target char offset
+    uint16_t s           = 0;      // Source char offset
+    int      diff        = 0;      // target and source char offset diff
+    uint8_t  place_avail = 0;      // flga place availability in visited array 
     
     for (i = 0; source[i]!='\0'; i++)
     {
@@ -71,22 +93,37 @@ void is_conversion_possible(char source[], char target[], int k)
         {
             diff= (diff+MAX_ALPHABET_SIZE)%MAX_ALPHABET_SIZE; // Make it pos
         }
-        
+
         if(diff>k)
         {
             OUT("#ERROR [diff is out of range]\n");
+            return;
         }
 
-        // As one shift out of 1 to k can be used at most once
-        if(visited[diff]==0)
+        place_avail = 0;
+        while(diff<=k)
         {
-            visited[diff] = 1;                              
+            // As one shift out of 1 to k can be used at most once
+            if(0 == visited[diff])
+            {
+                visited[diff] = 1;
+                place_avail   = 1;
+                break;                              
+            }
+            // Check if place is available by circularly rotating it
+            else
+            {
+                
+                diff = diff + MAX_ALPHABET_SIZE;
+            }
         }
-        else
+
+        if(0 == place_avail)
         {
             OUT("#RESULT [No]\n");
             return;
         }
+        
     }
 
     OUT("#RESULT [Yes]\n");
@@ -96,9 +133,9 @@ void is_conversion_possible(char source[], char target[], int k)
 
 int main()
 {
-    char source[] = "axc";
+    char source[] = "axa";
     char target[] = "dad";
-    int k         = 3;
+    int k         = 55;
 
     init();
     is_conversion_possible(source,target,k);
