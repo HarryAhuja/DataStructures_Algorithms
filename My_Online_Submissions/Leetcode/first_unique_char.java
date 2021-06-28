@@ -8,14 +8,17 @@
  * Space complexity: 32bits as only lower alphabets are there
  * 
  * Approach 2:
- * 
+ * Iterate from left to right
+ * Update when first time char is seen
+ * But this will give last unique char in string
+ * Failed At : "dddccdbbae"
  * 
  * How to check kth Set bit
  * 1.) Right shift by k bits and then bitwise AND with 0x1
  * 2.) Left shift 1 by k bits and take bitwise AND
  * 
  * How to set kth bit
- * 
+ * n = n | (1<<k);
  * 
 */
 
