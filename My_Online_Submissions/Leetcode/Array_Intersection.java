@@ -36,7 +36,16 @@ public class Array_Intersection {
 			}
 		}
 		
-		return result.stream().mapToInt(Integer::intValue).toArray();
+		//return result.stream().mapToInt(Integer::intValue).toArray(); // Java8 direct method
+		
+		//Indirect approach -> ArrayList to int arr conversion
+		int result_array[] = new int[result.size()];
+		for(int i=0;i<result.size();i++)
+		{
+			result_array[i] = result.get(i);
+		}
+		
+		return result_array;
 	}
 
 	public static void main(String[] args) {
