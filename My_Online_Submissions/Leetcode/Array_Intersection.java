@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.*;
 
