@@ -35,8 +35,9 @@ public class Array_Intersection {
 				}
 			}
 		}
-		
-		//return result.stream().mapToInt(Integer::intValue).toArray(); // Java8 direct method
+
+		// Java8 direct method, this method is very costly(increased 4ms to 90ms)
+		//return result.stream().mapToInt(Integer::intValue).toArray(); 
 		
 		//Indirect approach -> ArrayList to int arr conversion
 		int result_array[] = new int[result.size()];
