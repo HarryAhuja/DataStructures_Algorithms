@@ -13,6 +13,14 @@ public class Array_Intersection {
 		
 		for(int i=0;i<n1;i++)
 		{
+			/* Alternative method
+			 * 
+			 * for (i = 0; i < nums1.length; i++)
+             *		hash_map.put(nums1[i], map.getOrDefault(nums1[i], 0)+1);
+             *		
+             * if key is found then value corresponding to key + 1
+             * if key is not found then default value(0)+1
+			 */
 			if(hash_map.containsKey(num1[i]))
 			{
 				hash_map.put( num1[i] , hash_map.get(num1[i]) + 1);
@@ -36,10 +44,15 @@ public class Array_Intersection {
 			}
 		}
 
+		// Option1
 		// Java8 direct method, this method is very costly(increased 4ms to 90ms)
-		//return result.stream().mapToInt(Integer::intValue).toArray(); 
+		// return result.stream().mapToInt(Integer::intValue).toArray(); 
 		
-		//Indirect approach -> ArrayList to int arr conversion
+		
+		// Option2
+		// return Arrays.copyOfRange(nums1, 0, total_result_elements);
+		 
+		//Option3 : ArrayList to int arr conversion
 		int result_array[] = new int[result.size()];
 		for(int i=0;i<result.size();i++)
 		{
@@ -47,6 +60,11 @@ public class Array_Intersection {
 		}
 		
 		return result_array;
+		
+		
+		
+		
+		
 	}
 
 	public static void main(String[] args) {
