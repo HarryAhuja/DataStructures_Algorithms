@@ -6,31 +6,33 @@ public class Array_Intersection {
 	
 	static int[] printIntersection(int num1[],int num2[])
 	{
+		int n1 = num1.length;
+		int n2 = num2.length;
+		HashMap<Integer,Integer> hash_map = new HashMap<Integer,Integer>();
+		ArrayList<Integer> result = new ArrayList<Integer>();
 		
-		int n1= num1.length;
-		int n2= num2.length;
-		ArrayList<Integer> result= new ArrayList<Integer>();
-		
-		Arrays.sort(num1);
-		Arrays.sort(num2);
-		
-		int i=0,j=0,k=0;
-		
-		while(i<n1 && j<n2)
+		for(int i=0;i<n1;i++)
 		{
-			if(num1[i]<num2[j])
+			if(hash_map.containsKey(num1[i]))
 			{
-				i++;
-			}
-			else if (num1[i]>num2[j])
-			{
-				j++;
+				hash_map.put( num1[i] , hash_map.get(num1[i]) + 1);
 			}
 			else
 			{
-				result.add(num1[i]);
-				i++;
-				j++;
+				hash_map.put(num1[i],1);
+			}
+		}
+		
+		for(int j=0;j<n2;j++)
+		{
+			if(hash_map.containsKey(num2[j]) == true)
+			{
+				int freq = hash_map.get(num2[j]);
+				if(freq>0)
+				{
+					result.add(num2[j]);
+					hash_map.put(num2[j], freq-1);
+				}
 			}
 		}
 		
