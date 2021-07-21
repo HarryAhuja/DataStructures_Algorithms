@@ -12,22 +12,60 @@
  * So in both cases, end the end low is the required ans
  */
 
+/*
+ * Instead of adjusting low to mid+1 or high=mid-1
+ * we can shift both to mid but in that case recursion condition should be changed
+ * 
+ * while(low<=high)-> while(low+1<high) -> This will break when 2 elements are left
+ * bcs at one element, infinite while loop will run
+ * 
+ * Based on two elements we can decide, the ans
+ * 
+ */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class SearchInsertPosition {
 		
-	static int searchInsert(int[] inp, int target) {
-		
-		for(int i=0;i<inp.length;i++)
+	static int searchInsertRecur(int[] inp, int target, int low, int high) {
+
+		if(low+1>=high)
 		{
-			if(target<=inp[i])	return i;
+			if (inp[low] == target){
+		        return low;
+		    }
+			
+			if (inp[high]==target){
+		        return high;
+		    }
+
+		    if (inp[high] < target){
+		        return high+1;
+		    }
+
+		    if (inp[high]>target && target>inp[low]){
+		        return low+1;
+		    }
+
+		    if (inp[low] > target){
+		        return low;
+		    }
 		}
-		return inp.length;
+
+		int mid = low+(high-low)/2;	// (low+high)/2 Can run into overflow
+
+		if(inp[mid] == target)	return mid;
+		if(target< inp[mid])	return searchInsertRecur(inp, target, low, mid);
+		else					return searchInsertRecur(inp, target, mid, high);
+	}
+	
+	static int searchInsert(int[] inp, int target) {
+		return searchInsertRecur(inp, target, 0, inp.length-1);
     }
 
 	public static void main(String[] args) {
 		
-		int inp[] = new int[] {1,3,5,6};
+		int inp[] 	= new int[] {1,3,5,6};
 		int target  = 2;
 		
 		System.out.println(searchInsert(inp,target));
