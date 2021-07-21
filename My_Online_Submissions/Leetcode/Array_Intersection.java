@@ -61,10 +61,6 @@ public class Array_Intersection {
 		
 		return result_array;
 		
-		
-		
-		
-		
 	}
 
 	public static void main(String[] args) {
