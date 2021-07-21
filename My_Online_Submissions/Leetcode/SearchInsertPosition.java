@@ -15,20 +15,14 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class SearchInsertPosition {
-	
-	static int searchInsertRecur(int[] inp, int target, int low, int high) {
 		
-		if(low>high)	return low;
-		
-		int mid = low+(high-high)/2;	// (low+high)/2 Can run into overflow
-		
-		if(inp[mid] == target)	return mid;
-		if(target< inp[mid])	return searchInsertRecur(inp, target, low, mid-1);
-		else					return searchInsertRecur(inp, target, mid+1, high);
-	}
-	
 	static int searchInsert(int[] inp, int target) {
-		return searchInsertRecur(inp, target, 0, inp.length-1);
+		
+		for(int i=0;i<inp.length;i++)
+		{
+			if(target<=inp[i])	return i;
+		}
+		return inp.length;
     }
 
 	public static void main(String[] args) {
