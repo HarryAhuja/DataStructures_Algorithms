@@ -21,6 +21,9 @@
  * 
  * Based on two elements we can decide, the ans
  * 
+ * // Invariant: the desired index is between [low, high+1]
+ * 
+ * Duplicates: Test case when target==inp[mid], search left again
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -29,34 +32,14 @@ public class SearchInsertPosition {
 		
 	static int searchInsertRecur(int[] inp, int target, int low, int high) {
 
-		if(low+1>=high)
-		{
-			if (inp[low] == target){
-		        return low;
-		    }
-			
-			if (inp[high]==target){
-		        return high;
-		    }
-
-		    if (inp[high] < target){
-		        return high+1;
-		    }
-
-		    if (inp[high]>target && target>inp[low]){
-		        return low+1;
-		    }
-
-		    if (inp[low] > target){
-		        return low;
-		    }
-		}
+		if(low>high)	return low;
 
 		int mid = low+(high-low)/2;	// (low+high)/2 Can run into overflow
 
-		if(inp[mid] == target)	return mid;
-		if(target< inp[mid])	return searchInsertRecur(inp, target, low, mid);
-		else					return searchInsertRecur(inp, target, mid, high);
+		// if target is equal, search left side to get first index
+		
+		if(target<= inp[mid])	return searchInsertRecur(inp, target, low, mid-1);
+		else					return searchInsertRecur(inp, target, mid+1, high);
 	}
 	
 	static int searchInsert(int[] inp, int target) {
@@ -65,8 +48,8 @@ public class SearchInsertPosition {
 
 	public static void main(String[] args) {
 		
-		int inp[] 	= new int[] {1,3,5,6};
-		int target  = 2;
+		int inp[] 	= new int[] {1,3,3,3,3,5,6,6,6,6};
+		int target  = 7;
 		
 		System.out.println(searchInsert(inp,target));
 	}
