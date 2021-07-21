@@ -20,7 +20,7 @@ public class SearchInsertPosition {
 		
 		if(low>high)	return low;
 		
-		int mid = (low+high)/2;
+		int mid = low+(high-high)/2;	// (low+high)/2 Can run into overflow
 		
 		if(inp[mid] == target)	return mid;
 		if(target< inp[mid])	return searchInsertRecur(inp, target, low, mid-1);
