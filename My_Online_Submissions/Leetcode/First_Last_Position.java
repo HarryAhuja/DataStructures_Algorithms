@@ -1,10 +1,8 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class First_Last_Position {
-	static private int first_index = -1;
-	static private int last_index  = -1;
 	
-	static public void searchRangeFirstIndex(int[] inp, int target,int low,int high)
+	static public int searchRangeFirstIndex(int[] inp, int target,int low,int high, int last_seen)
 	{
         if(low<=high)
         {
@@ -12,21 +10,23 @@ public class First_Last_Position {
 			
 			if(inp[mid] == target)
 			{
-				first_index  = mid;
-				searchRangeFirstIndex(inp, target,low,mid-1);
+				last_seen  = mid;
+				return searchRangeFirstIndex(inp, target,low,mid-1,last_seen);
 			}
 			else if(inp[mid] < target)
 			{
-				searchRangeFirstIndex(inp, target,mid+1,high);
+				return searchRangeFirstIndex(inp, target,mid+1,high,last_seen);
 			}
 			else
 			{
-				searchRangeFirstIndex(inp, target,low,mid-1);
+				return searchRangeFirstIndex(inp, target,low,mid-1,last_seen);
 			}
         }
+        
+        return last_seen;
     }
 	
-	static public void searchRangeLastIndex(int[] inp, int target,int low,int high)
+	static public int searchRangeLastIndex(int[] inp, int target,int low,int high,int last_seen)
 	{
 		if(low<=high)
         {
@@ -34,32 +34,29 @@ public class First_Last_Position {
 			
 			if(inp[mid] == target)
 			{
-				last_index  = mid;
-				searchRangeLastIndex(inp, target,mid+1,high);
+				last_seen  = mid;
+				return searchRangeLastIndex(inp, target,mid+1,high,last_seen);
 			}
 			else if(inp[mid] < target)
 			{
-				searchRangeLastIndex(inp, target,mid+1,high);
+				return searchRangeLastIndex(inp, target,mid+1,high,last_seen);
 			}
 			else
 			{
-				searchRangeLastIndex(inp, target,low,mid-1);
+				return searchRangeLastIndex(inp, target,low,mid-1,last_seen);
 			}
         }
 		
+		return last_seen;
     }
 	
 	static public int[] searchRange(int[] nums, int target)
 	{
 		int result[] = new int[2];
 		
-		searchRangeFirstIndex(nums, target,0,nums.length-1);
-		result[0] = first_index;
-		 
-		searchRangeLastIndex(nums, target,0,nums.length-1);
-		result[1] = last_index;
-				
-
+		result[0] = searchRangeFirstIndex(nums, target,0,nums.length-1, -1);
+		result[1] = searchRangeLastIndex(nums, target,0,nums.length-1, -1);
+		
 		return result;
     }
 
