@@ -6,6 +6,28 @@ import java.util.ListIterator;
 
 public class KClosestElements {
     
+    static int search_greater_equal_element_index_helper(
+    int[] inp, int target, int low, int high, int last_seen)
+    {
+        if(low>high)    return last_seen;
+        
+        int mid = low+(high-low)/2;
+        
+        if(target<inp[mid])
+        {
+            last_seen = mid;
+            return search_greater_equal_element_index_helper(inp,target,low,mid-1,last_seen);
+        }
+        else if(target>inp[mid])
+        {
+            return search_greater_equal_element_index_helper(inp,target,mid+1,high,last_seen);
+        }
+        else
+        {
+            return mid;
+        }
+    }
+    
     static int search_greater_equal_element_index(int[] inp, int target, int low, int high)
     {
         // Base Cases, if not there then runtime exception in case target>inp[high]
@@ -14,30 +36,7 @@ public class KClosestElements {
         if(target<= inp[0])     return 0;
         if(target>=inp[high])   return high;
         
-        
-        int result = -1;
-        while(low<=high)
-        {
-            int mid = low+(high-low)/2;
-            
-            if(target<inp[mid])
-            {
-                result = mid;
-                high   = mid-1;
-            }
-            else if(target>inp[mid])
-            {
-                low = mid+1;
-            }
-            else
-            {
-                result = mid;
-                break;
-            }
-            
-        }
-        
-        return result;
+        return search_greater_equal_element_index_helper(inp,target,low,high,-1);
     }
 
 	public static List<Integer> findClosestElements(int inp[], int k, int x)
