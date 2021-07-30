@@ -2,37 +2,32 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class SqrtX {
 
-    public static int sqrt_helper(int x, int low,int high)
+    public static int sqrt_helper(int x, int low,int high, int last_seen)
     {
-        int result = -1;
+        if(low>high)    return last_seen;
         
-        while(low<=high)
+        
+        int mid = low + (high-low)/2;
+        
+        if(mid>x/mid)
         {
-            int mid = low + (high-low)/2;
-            
-            if(mid>x/mid)
-            {
-                high = mid-1;
-            }
-            else if(mid<x/mid)
-            {
-                result = mid;
-                low    = mid+1;
-            }
-            else
-            {
-                result= mid;
-                break;
-            }
+            return sqrt_helper(x,low,mid-1,last_seen);
+        }
+        else if(mid<x/mid)
+        {
+            return sqrt_helper(x,mid+1,high,mid);
+        }
+        else
+        {
+            return mid;
         }
         
-        return result;
     }
     public static int sqrt(int x)
     {
         if(x == 0)  return x;
         
-        return sqrt_helper(x,1,x);
+        return sqrt_helper(x,1,x,-1);
     }
     public static void main(String[] args) {
 
