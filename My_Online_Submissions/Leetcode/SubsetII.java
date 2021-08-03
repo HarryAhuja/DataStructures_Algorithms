@@ -11,8 +11,7 @@ public class SubsetII {
     {
         if(level == n)
         {
-            result.add(temp_list);
-            System.out.println(temp_list);
+            result.add(new ArrayList<Integer>(temp_list));
             return;
         }
         
