@@ -19,6 +19,9 @@ public class SubsetII {
         //Exclude && Backtracking
         subset_helper(inp,level+1,n,temp_list,result,true);
         
+        // if we had chosen to ignore some element in the decision tree, we should
+        // ignore the duplicates in all following decisions for the decision tree. 
+        // So we'd return from here, and not process the decision where we include the element. 
         if(level>0 && inp[level]==inp[level-1] && choose_ignore)    return;
         
         //Include
