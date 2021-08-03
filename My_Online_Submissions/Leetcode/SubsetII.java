@@ -30,8 +30,9 @@ public class SubsetII {
     }
     public static List<List<Integer>> subset(int inp[])
     {
-        Arrays.sort(inp);.
+        
         //ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        Arrays.sort(inp);
         List<List<Integer>> result = new ArrayList<>();
         //List<List<Integer>> result = new ArrayList<List<Integer>>();
 
