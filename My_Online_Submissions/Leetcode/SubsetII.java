@@ -11,7 +11,10 @@ public class SubsetII {
     {
         if(level == n)
         {
-            result.add(new ArrayList<Integer>(temp_list));
+            // Don't use result.add(temp_list)
+            // It will take same memory and answer will be 0
+            // because of backtracking
+            result.add(new ArrayList<Integer>(temp_list));      
             return;
         }
         
