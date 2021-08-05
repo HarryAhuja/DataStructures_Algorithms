@@ -13,13 +13,15 @@ public class MissingNumber {
         int low  = 0;
         int high = n-1;
         
-        // [0,1]
-        if(inp[n-1] == n-1)   return n;
-        if(inp[0]   != 0)     return 0;
+        
         
         int result = -1;
         
         Arrays.sort(inp);
+        
+        // [0,1]
+        if(inp[n-1] == n-1)   return n;
+        if(inp[0]   != 0)     return 0;
         
         while(low<=high)
         {
