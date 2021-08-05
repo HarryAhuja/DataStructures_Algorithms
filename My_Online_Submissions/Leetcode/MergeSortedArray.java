@@ -10,6 +10,9 @@ public class MergeSortedArray {
         
         while(i>=0 && j>=0)
         {
+            // when equal try to reduce nums2
+            // Observation : When nums2 is finished, nums1 elements
+            // are already in correct place, no need to compare them
             if(nums1[i]<=nums2[j])
             {
                 nums1[k] = nums2[j];
