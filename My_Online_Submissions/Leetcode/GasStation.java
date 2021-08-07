@@ -7,21 +7,14 @@ class Solution {
         
         if(n==0)    return -1;
         
-        int total = 0;
-        
-        for(int i=0;i<n;i++)
-        {
-            total+= (gas[i]-cost[i]);
-        }
-        
-        if(total < 0)   return -1;
-        
+        int total       = 0;    
         int tank        = 0;
         int start_index = 0;
         
         for(int i=0;i<n;i++)
         {
             tank+= (gas[i]-cost[i]);
+            total+= (gas[i]-cost[i]);
             
             if(tank<0)
             {
@@ -30,7 +23,7 @@ class Solution {
             }
         }
         
-        return start_index;
+        return (total<0?-1:start_index);
     }
 }
 
