@@ -20,31 +20,7 @@ class MyComparator implements Comparator<String>
         String str1  = obj1+obj2;
         String str2  = obj2+obj1;
         
-        int m = str1.length();
-        int n = str1.length();
-        
-        int i = 0;
-        while(i<Math.min(m, n))
-        {
-            if(str1.charAt(i) == str2.charAt(i))
-            {
-                //check next character
-            }
-            else if(str1.charAt(i) > str2.charAt(i))
-            {
-                // str1 is bigger, come before
-                return -1;
-            }
-            else
-            {
-                // str2 is bigger, come before
-                return +1;
-            }
-            i++;
-        }
-        if(m == n && i==n)  return +1;      // duplicates
-        else if(i == n)     return -1;      // str1 is bigger
-        else                return +1;      // str2 is bigger
+        return str2.compareTo(str1);
     }
 }
 public class LargestNumber {
