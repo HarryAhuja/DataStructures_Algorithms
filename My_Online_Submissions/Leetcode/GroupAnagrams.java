@@ -13,6 +13,14 @@
  * 
  * map.values return collection view. So we can convert
  * into Array List directly
+ * 
+ * Encoding technique
+ * Since anagrams should produce same string, therefore
+ * all should have same encoded string based upon their
+ * frequency. So we can have some algo which return same encoded
+ * string for all anagrams. So that key would remain same
+ * Currently encoding string is taking sorting of string(mlogm)
+ * We should make it as O(m)
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -37,16 +45,22 @@ public class GroupAnagrams {
         for(int i=0;i<n;i++)
         {
             String s = str[i];
-
-            char char_arr[] = s.toCharArray();
-            Arrays.sort(char_arr);
             
-            // Convert char array into String
-            String sorted_str = String.valueOf(char_arr);
+            // 128 :75ms
+            // 26  :17ms
+            // Bcs this has to go into Arrays.toString()
+            int frequency[] = new int[128];
+            for(int j=0;j<s.length();j++)
+            {
+                frequency[s.charAt(j)-'a']++;
+            }
             
-            if(map.containsKey(sorted_str) == false)    map.put(sorted_str, new ArrayList<String>());
+            // Convert int array into String
+            String encoded_str = Arrays.toString(frequency);
             
-            map.get(sorted_str).add(s);
+            if(map.containsKey(encoded_str) == false)    map.put(encoded_str, new ArrayList<String>());
+            
+            map.get(encoded_str).add(s);
         }
         
         return new ArrayList<>(map.values());
