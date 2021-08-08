@@ -5,10 +5,9 @@
  * At the end, queue will contain k element where top of min PQ
  * will be kth largest element in array
  */
+package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.PriorityQueue;
-
-package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.Arrays;
 
@@ -20,16 +19,9 @@ public class KthLargestElement {
         
         if(n==0 || n<k) return -1;
            
-        PriorityQueue<Integer> pq = new PriorityQueue<>(n);
+        Arrays.sort(inp);
         
-        for(int i=0;i<n;i++)
-        {
-            pq.offer(Integer.valueOf(inp[i]));
-            
-            if(pq.size()>k) pq.poll();
-        }
-        
-        return pq.peek();
+        return inp[n-k];
     }
 
     public static void main(String[] args) {
