@@ -2,57 +2,36 @@
  * Order doesn't matter
  * Output   = [["bat"],["eat","tea","ate"],["tan","nat"]]
  * Expected = [["bat"],["nat","tan"],["ate","eat","tea"]]
+ * 
+ * ate,eat,tea after sorting will make same aet
+ * so keep aet as key and array list of 3 strings as values
+ * so in map it would be
+ * Key      Value
+ * aet      [eat,tea,ate]
+ * ant      [nat,tan]
+ * abt      [bat]
+ * 
+ * map.values return collection view. So we can convert
+ * into Array List directly
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Comparator;
-
-class Node implements Comparator<Node>
-{
-    public String original_value;
-    public String s;
-    
-    public Node()
-    {
-        this.original_value = "";
-        this.s              = "";
-    }
-    
-    public Node(String original_value,String s)
-    {
-        this.original_value = original_value;
-        this.s              = s;
-    }
-
-    @Override
-    public int compare(Node o1, Node o2) {
-        String str1 = o1.s;
-        String str2 = o2.s;
-        
-        return str1.compareTo(str2);
-    } 
-}
+import java.util.Map;
+import java.util.HashMap;
 
 public class GroupAnagrams {
     
     public static List<List<String>> group_anagrams(String str[])
     {
-        // Don't write new ArrayList<String>();
-        // Otherwise CE
-        List<List<String>> result       = new ArrayList<>();
-        ArrayList<String> temp_arr_list = new ArrayList<String>();
-        
+        Map<String, List<String>> map = new HashMap<>();
         
         int n = str.length;
         
-        if(n == 0)  return result;
-        
-        Node node_array[]  = new Node[n];
+        if(n == 0)  return new ArrayList<>();
         
         // Sort word wise
         for(int i=0;i<n;i++)
@@ -63,36 +42,15 @@ public class GroupAnagrams {
             Arrays.sort(char_arr);
             
             // Convert char array into String
-            node_array[i]       = new Node(s,String.valueOf(char_arr));
+            String sorted_str = String.valueOf(char_arr);
+            
+            if(map.containsKey(sorted_str) == false)    map.put(sorted_str, new ArrayList<String>());
+            
+            map.get(sorted_str).add(s);
         }
         
-        // Sort whole String array
-        Arrays.sort(node_array,new Node());
+        return new ArrayList<>(map.values());
         
-        // Add first element
-        int i = 1;
-        temp_arr_list.add(node_array[0].original_value);
-        
-        while(i<n)
-        {
-            if(node_array[i].s.equals(node_array[i-1].s)==true)
-            {
-                temp_arr_list.add(node_array[i].original_value);
-            }
-            else
-            {
-                // Add new array list, if new AL is not made
-                // then its pass by reference
-                result.add(new ArrayList<String>(temp_arr_list));
-                temp_arr_list.clear();
-                temp_arr_list.add(node_array[i].original_value);
-            }
-            i++;
-        }
-        // Add Last made array List
-        result.add(new ArrayList<String>(temp_arr_list));
-        
-        return result;
     }
     public static void main(String[] args) {
         
@@ -101,21 +59,7 @@ public class GroupAnagrams {
         List<List<String>> result = group_anagrams(str);
         
         System.out.println(result);
-        
-        /* Iterator 2d List
-         * Iterator<List<String>> itr = result.iterator();
-        while(itr.hasNext())
-        {
-            List<String> each_list = (List<String>)itr.next();
-            
-            Iterator<String> each_list_itr = each_list.iterator();
-            
-            while(each_list_itr.hasNext())
-            {
-                System.out.print(each_list_itr.next()+" ");
-            }
-        }
-        */
+
     }
 
 }
