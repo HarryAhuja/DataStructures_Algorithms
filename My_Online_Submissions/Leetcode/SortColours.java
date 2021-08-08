@@ -24,6 +24,13 @@ public class SortColours {
             if(inp[j] == 0)
             {
                 swap(inp,i,j);
+                
+                // Here we ith element is already processed so we
+                // can do i++ bcs we can't have array like [0,0,0,1,2,0(j)]
+                // bcs 2 will be already taken care. So it will be like this
+                // [0,0,0,1,1,0(j)]. It will be 1 only bcs if 0 was there
+                // instead of 2, it would have been taken care and placed 
+                // before i
                 i++;            // [0:i-1] contains 0 section
                 j++;            // Element is processed succesfully
             }
