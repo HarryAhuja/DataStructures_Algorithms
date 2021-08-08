@@ -21,6 +21,9 @@
  * string for all anagrams. So that key would remain same
  * Currently encoding string is taking sorting of string(mlogm)
  * We should make it as O(m)
+ * 
+ * Use various methods for making hash code like
+ * professional,KMP etc
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
