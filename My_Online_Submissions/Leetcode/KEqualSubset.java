@@ -27,7 +27,7 @@ public class KEqualSubset {
             
             return;
         }
-        else if(level==n)
+        else if(level==n || sum>target_sum)
         {
             // if sum!=target then it will infinite loop
             // At sum point it has to stop
