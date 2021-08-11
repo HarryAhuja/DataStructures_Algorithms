@@ -21,12 +21,12 @@ public class BeatifulArrangement {
                    )
                 {
                     // Setting a bit
-                    visited = visited | (1<<(i-1));
+                    visited ^= (1<<(i-1));
                     
                     count_arrangements_helper(level+1, n, visited);
                     
                     // Inverting a bit
-                    visited = visited & (~(1<<(i-1)));  // backtracking
+                    visited ^= (1<<(i-1));  // backtracking
                 }
             }
         }
