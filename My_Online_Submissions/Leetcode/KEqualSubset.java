@@ -1,13 +1,11 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
-import java.util.HashMap;
-
 public class KEqualSubset {
 
     public static boolean result = false;
     
     public static void is_partition_possible_helper(int inp[], int level,int n,int k,int target_sum,
-                                                    int sum,boolean visited[])
+                                                    int sum,int visited)
     {
         // each bucket can contain different number of
         // elements so base case is not on level==n
@@ -35,17 +33,18 @@ public class KEqualSubset {
         }
         
         // Exclude
+        // if we comment out this line, then all subsets will not be created
         is_partition_possible_helper(inp, level+1, n, k, target_sum,sum,visited);
         
         //Include
-        if(visited[level] == false)
+        if(((visited>>level)&0x1) == 0)
         {
-            visited[level] = true;
+            visited^=(1<<level);
             is_partition_possible_helper(inp, level+1, n, k, target_sum,sum+inp[level],visited);
             // No need of backtrack explicitly of sum since we are not changing any global
             // variable sum is local variable. So when this line hits, sum is not sum+inp[level]
             // But visited array is passed by reference, do explicit
-            visited[level] = false;
+            visited^=(1<<level);
         }
         
         
@@ -54,7 +53,7 @@ public class KEqualSubset {
     {
         int total_sum     = 0;
         int n             = inp.length;
-        boolean visited[] = new boolean[n];
+        int visited       = 0;
         
         for(int i=0;i<n;i++)   total_sum+=inp[i];
         
@@ -65,7 +64,6 @@ public class KEqualSubset {
         }
         
         is_partition_possible_helper(inp,0,n,k,total_sum/k,0,visited);
-        
         
         return result;
     }
