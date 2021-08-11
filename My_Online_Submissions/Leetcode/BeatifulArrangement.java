@@ -1,6 +1,8 @@
+/*
+ * Xoring with 0 means bit left unchanged
+ * 
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
-
-import java.util.ArrayList;;
 
 public class BeatifulArrangement {
 
