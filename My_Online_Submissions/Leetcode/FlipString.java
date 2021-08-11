@@ -33,6 +33,44 @@
  * 
  */
 
+/*
+
+    Every character in the string has 2 choices,
+    1) it can retain its value.
+    2) it can be flipped.
+    
+    - We can have all 0s in the string,
+    - We can have all 1s in the string,
+    - We can have mixture of 0s and 1s but with the condition that no 0 should occur after 1
+        -But the 1s can occur after 0s right!!
+    
+    Let us now try to build the logic,
+    If in the string 1s are occuring after 0s , then there is no problem.
+    But if 0s are coming after 1s then we have to think about options:
+        1) Either we can flips 1s to 0s
+        2) Flip 0s to 1s
+    
+    #Note: 
+    We actually want 1s at the tail of string,
+    so when we encounter 1 dont do anything but store its count,
+    but when we encounter 0 then we have a option to flip it.
+    
+    Let us try to analyse this,
+    At every iteration , we will calculate how many 0s are there to be flipped, and how many 1s we encountered,
+    let us say,
+    whenever we encounter '0' we will increment flip,
+    and whenever we encounter '1' we will increment cnt,
+    
+    If there are no 1s then we are good,
+    If there are no 0s then also we are good,
+    But if there is combination of 0s and 1s then we need to consider,
+    that among 1s and 0s which one to flipped,
+    As we want to find out the minimum cost,
+    We will consider the minimum among them,
+    flip = min(flip,cnt)
+ * 
+ * */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class FlipString {
@@ -40,43 +78,26 @@ public class FlipString {
     public static int count_flip(String s)
     {
         int n                  = s.length();
-        int prev_set_bit       = n;
-        int flip_zeroes        = 0;
-        int set_bits_total     = 0;
-        boolean last_zero_seen = false;
-        
+      
         if(n==0 || n==1)    return 0;
         
-        Integer i = Integer.valueOf(s, 2);
+        int ones   = 0;
+        int zeroes = 0;
         
-        
-        while(i>0)
+        for(int i=0;i<n;i++)
         {
-            // Position of last set bit
-            int curr_last_set_bit = n-(((int)(Math.log10(i&~(i-1))/Math.log10(2)))+1);
+            if(s.charAt(i)=='0')  zeroes++;
+            else        ones++;
             
-            flip_zeroes = flip_zeroes + (prev_set_bit-curr_last_set_bit-1);
-            
-            if(flip_zeroes>0 && (last_zero_seen == false))
-            {
-                last_zero_seen = true;
-            }
-            
-            
-            prev_set_bit = curr_last_set_bit;
-            
-            // Unset right most set bit
-            i = (i&(i-1));
-            
-            if(last_zero_seen==true)    set_bits_total+=1;
+            zeroes = Math.min(zeroes, ones);
         }
         
-        return Math.min(flip_zeroes, set_bits_total); 
+        return zeroes;
     }
     public static void main(String[] args) {
         
-        String s = "10011111110010111011";
-        //String s = "00110";
+        //String s = "10011111110010111011";
+        String s = "1001";
         System.out.println(count_flip(s));
 
     }
