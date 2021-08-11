@@ -6,7 +6,7 @@ public class BeatifulArrangement {
 
     public static int result = 0;
     
-    public static void count_arrangements_helper(int level,int n,boolean visited[])
+    public static void count_arrangements_helper(int level,int n,int visited)
     {
         if(level > n)
         {
@@ -16,21 +16,24 @@ public class BeatifulArrangement {
         {
             for(int i = 1;i<=n;i++)
             {
-                if(visited[i] == false &&
+                if(((visited>>(i-1))&0x1) == 0 &&
                    ((i%level == 0) || (level%i ==0))
                    )
                 {
-                    visited[i] = true;
+                    // Setting a bit
+                    visited = visited | (1<<(i-1));
+                    
                     count_arrangements_helper(level+1, n, visited);
-                    // backtracking
-                    visited[i] = false; 
+                    
+                    // Inverting a bit
+                    visited = visited & (~(1<<(i-1)));  // backtracking
                 }
             }
         }
     }
     public static int count_arrangements(int n)
     {
-        boolean visited[] = new boolean[n+1];
+        int visited = 0;
         
         count_arrangements_helper(1,n,visited);
         
