@@ -12,22 +12,17 @@ public class Subset {
         
         if(n==0)    return new ArrayList<>();
         
-        List<List<Integer>> result = new ArrayList<>();
-        result.add(new ArrayList<>());
+        int p = (1<<n);
+        List<List<Integer>> result = new ArrayList<>(p);
         
-        
-        for(int i = 0;i<n;i++)
+        for(int i = 0;i<p;i++)
         {
-            int num = inp[i];
-            
-            int size_list = result.size();
-            
-            for(int j=0;j<size_list;j++)
+            List<Integer> l = new ArrayList<>();
+            for(int j=0;j<n;j++)
             {
-                List<Integer> l = new ArrayList<>(result.get(j));
-                l.add(num);
-                result.add(l);
+                if(((i>>j)&0x1)==1)   l.add(inp[j]);
             }
+            result.add(l);
         }
 
         return result;
