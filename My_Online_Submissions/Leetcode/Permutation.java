@@ -5,29 +5,29 @@ import java.util.List;
 
 public class Permutation {
 
-    public static void swap(int i,int j, int inp[])
-    {
-        int temp = inp[i];
-        inp[i]   = inp[j];
-        inp[j]   = temp;
-    }
-    public static void generate_permutation_helper(int inp[], int level,int n,List<List<Integer>> result)
+
+    public static void generate_permutation_helper(int inp[], int level,int n,List<Integer> list,
+                                                   List<List<Integer>> result,boolean visited[])
     {
         if(level == n)
         {
-            ArrayList<Integer> al = new ArrayList<>();
-            for(int x = 0;x<n;x++)  al.add(inp[x]);
-            
-            result.add(al);
+            result.add(new ArrayList<>(list));
         }
         
-        for(int i = level;i<n;i++)
+        // At each level, all numbers can come
+        // except which is used before
+        for(int i = 0;i<n;i++)
         {
-            swap(level,i,inp);
-            
-            generate_permutation_helper(inp,level+1,n,result);
-            
-            swap(level,i,inp);
+            if(visited[i] == false)
+            {
+                visited[i] = true;
+                list.add(inp[i]);
+                
+                generate_permutation_helper(inp,level+1,n,list,result,visited);
+                
+                list.remove(list.size()-1);
+                visited[i] = false;
+            }
         }
     }
     public static List<List<Integer>> generate_permutation(int inp[])
@@ -36,8 +36,9 @@ public class Permutation {
         if(n==0)    return new ArrayList<>();
         
         List<List<Integer>> result = new ArrayList<>();
+        boolean visited[] = new boolean[n];
         
-        generate_permutation_helper(inp,0,n,result);
+        generate_permutation_helper(inp,0,n,new ArrayList<>(),result,visited);
         
         return result;
     }
