@@ -5,24 +5,19 @@ import java.util.List;
 
 public class Subset {
 
-    public static List<List<Integer>> result = new ArrayList<>();
     
-    public static void print_all_subsets_helper(int inp[],int level,int n,ArrayList<Integer> list)
+    
+    public static void print_all_subsets_helper(int inp[],int level,int n,
+                                                ArrayList<Integer> list,List<List<Integer>> result)
     {
-        if(level == n)
+        result.add(new ArrayList<>(list));
+        
+        for(int i = level;i<n;i++)
         {
-            result.add(new ArrayList<>(list));
-            return;
+            list.add(inp[i]);
+            print_all_subsets_helper(inp,i+1,n,list,result);
+            list.remove(list.size()-1);
         }
-        
-        // Exclude
-        print_all_subsets_helper(inp,level+1,n,list);
-        
-        // Include
-        list.add(inp[level]);
-        print_all_subsets_helper(inp,level+1,n,list);
-        
-        list.remove(list.size()-1);     // Backtrack
     }
     public static List<List<Integer>> print_all_subsets(int inp[])
     {
@@ -30,7 +25,9 @@ public class Subset {
         
         if(n==0)    return new ArrayList<>();
         
-        print_all_subsets_helper(inp,0,n,new ArrayList<>());
+        List<List<Integer>> result = new ArrayList<>();
+        
+        print_all_subsets_helper(inp,0,n,new ArrayList<>(),result);
         
         return result;
     }
