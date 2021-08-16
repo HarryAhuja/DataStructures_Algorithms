@@ -1,3 +1,6 @@
+// String Builder is reference type while string is not
+// TODO: iterative approach
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ public class PhoneLetters {
     {
         if(level == n)
         {
-            result.add(new String(out.toString()));
+            result.add(new String(out));
             return;
         }
         // Integer.valueOf applied to
