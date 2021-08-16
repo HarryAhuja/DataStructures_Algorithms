@@ -1,20 +1,40 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
-// Since comparison is between homogenous keys, only
-// one Integer is allowed in Comparator generics
-// Always remember if we do like it will be sorted
-// based on keys, I1 and I2 both are keys
-class IntegerComparator implements Comparator<Integer>   
+class IntegerComparator implements Comparator<Node>
 {
-    public int compare(Integer i1,Integer i2)
+    @Override
+    public int compare(Node o1, Node o2) {
+        return o2.freq-o1.freq;
+    }
+}
+
+class Node 
+{
+    int key;
+    int freq;
+    
+    public Node()
     {
-        // Adding i1
-        // Already in map i2
-        // compare(i1,i2)
-        return i1-i2; // i1 comes first
+        key  = -1;
+        freq = 0;
+    }
+    public Node(int k,int f)
+    {
+        key  = k;
+        freq = f;
+    }
+    public String toString()
+    {
+        return "key="+this.key+" freq="+this.freq;
     }
 }
 
@@ -26,25 +46,42 @@ public class TopKFrequentElements {
         
         if(n==0)    return result;
         
-        TreeMap<Integer,Integer> map = new TreeMap<>(new IntegerComparator());
+        TreeMap<Integer,Integer> map= new TreeMap<>();
         
         for(int i=0;i<n;i++)
         {
-            if(map.containsKey(inp[i])==false)
-            {
-                map.put(inp[i], 1);
-            }
-            else
-            {
-                int freq = map.get(inp[i]);
-            }
+            if(map.containsKey(inp[i])) map.put(inp[i], map.get(inp[i])+1);
+            else                        map.put(inp[i],1);
         }
         
+        Set<Integer>        s    = map.keySet();
+        Iterator<Integer>   itr  = s.iterator();
+        ArrayList<Node>     list = new ArrayList<>();
+        int                 keys = 0;
+        
+        while(itr.hasNext())
+        {
+            Integer key = itr.next();
+            Integer val = map.get(key);
+            list.add(new Node(key,val));
+            keys++;
+        }
+        // This is not applicable to custom class
+        //Arrays.sort(list);
+        //Collections.sort(list)
+        // For custom class, use below and make another
+        // class for comparator. Don't implement in node
+        Collections.sort(list,new IntegerComparator());
+       
+        for(int i=0;i<k;i++)
+        {
+            result[i] = list.get(i).key;
+        }
         return result;
     }
     public static void main(String[] args) {
         
-        int nums[] = {1,1,1,2,2,3}, k = 2;
+        int nums[] = {3,0,1,0}, k = 1;
         
         int result[] = top_k_frequent_elements(nums,k);
         
