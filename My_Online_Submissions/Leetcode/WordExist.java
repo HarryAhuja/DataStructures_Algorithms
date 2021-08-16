@@ -40,6 +40,13 @@ public class WordExist {
         // This is for cyclic dependency check
         board[row][col] = '*';
         
+        /*
+        boolean result = is_word_exist(board,target,row,col+1,index+1) ||
+                        is_word_exist(board,target,row+1,col,index+1)  ||
+                        is_word_exist(board,target,row,col-1,index+1)  ||
+                        is_word_exist(board,target,row-1,col,index+1);
+        */
+        
         // right
         if(is_word_exist(board,target,row,col+1,index+1)==true)   return true;
         
