@@ -1,3 +1,11 @@
+/*
+ * OR
+ * After putting in map
+ * make a list of entries and sort the list on freq param
+ * of the entry
+ * 
+ */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.ArrayList;
@@ -30,44 +38,44 @@ public class TopKFrequentElements {
         }
         
         
-        TreeMap<Integer,List<Integer>> freq_map= new TreeMap<>();
+        // Max freq of a element can be total length of input array
+        List<Integer> hash_db[] = new List[inp.length+1];
         
-        Set<Integer>  key_set = map.keySet();
-        Iterator<Integer> itr = key_set.iterator();
-        
-        while(itr.hasNext())
+        for(int i:map.keySet())
         {
-            Integer key  =(Integer) itr.next();
-            Integer freq = map.get(key);
+            int freq = map.get(i);
             
-            if(freq_map.containsKey(freq) == false)
-            {
-                freq_map.put(freq, new ArrayList<>());
-            }
-            freq_map.get(freq).add(key);
+            // ArrayList since insertion is at last
+            if(hash_db[freq] == null)   hash_db[freq] = new ArrayList<>();
+            
+            hash_db[freq].add(i);
         }
         
         int count = 0;
-        while(count<k)
+        for(int i=hash_db.length-1;i>=0;i--)
         {
-            Map.Entry<Integer, List<Integer>> e = freq_map.pollLastEntry();
-            List<Integer> list = e.getValue();
-            int list_size     = list.size();
-            int i;
-            
-            for(i=0;i<list_size && count+i<k;i++)
+            if(hash_db[i]!=null)
             {
-                result[count+i] = list.get(i);
+                List<Integer> list = hash_db[i];
+                int list_size      = list.size();
+                int j              = 0;
+                
+                for(j=0;j<list_size && count+j<k;j++)
+                {
+                    result[count+j] = list.get(j);
+                }
+                
+                count+=j;
+                
+                if(count>=k)    break;
             }
-            count+=i;
         }
-        
         
         return result;
     }
     public static void main(String[] args) {
         
-        int nums[] = {3,0,1,0}, k = 1;
+        int nums[] = {1,1,2,2,3,3,4}, k = 2;
         
         int result[] = top_k_frequent_elements(nums,k);
         
