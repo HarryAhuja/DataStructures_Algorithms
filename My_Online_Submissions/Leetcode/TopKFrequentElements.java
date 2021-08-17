@@ -4,39 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-class IntegerComparator implements Comparator<Node>
-{
-    @Override
-    public int compare(Node o1, Node o2) {
-        return o2.freq-o1.freq;
-    }
-}
-
-class Node 
-{
-    int key;
-    int freq;
-    
-    public Node()
-    {
-        key  = -1;
-        freq = 0;
-    }
-    public Node(int k,int f)
-    {
-        key  = k;
-        freq = f;
-    }
-    public String toString()
-    {
-        return "key="+this.key+" freq="+this.freq;
-    }
-}
 
 public class TopKFrequentElements {
     public static int[] top_k_frequent_elements(int inp[],int k)
@@ -46,7 +21,7 @@ public class TopKFrequentElements {
         
         if(n==0)    return result;
         
-        TreeMap<Integer,Integer> map= new TreeMap<>();
+        Map<Integer,Integer> map = new HashMap<>();
         
         for(int i=0;i<n;i++)
         {
@@ -54,29 +29,40 @@ public class TopKFrequentElements {
             else                        map.put(inp[i],1);
         }
         
-        Set<Integer>        s    = map.keySet();
-        Iterator<Integer>   itr  = s.iterator();
-        ArrayList<Node>     list = new ArrayList<>();
-        int                 keys = 0;
+        
+        TreeMap<Integer,List<Integer>> freq_map= new TreeMap<>();
+        
+        Set<Integer>  key_set = map.keySet();
+        Iterator<Integer> itr = key_set.iterator();
         
         while(itr.hasNext())
         {
-            Integer key = itr.next();
-            Integer val = map.get(key);
-            list.add(new Node(key,val));
-            keys++;
+            Integer key  =(Integer) itr.next();
+            Integer freq = map.get(key);
+            
+            if(freq_map.containsKey(freq) == false)
+            {
+                freq_map.put(freq, new ArrayList<>());
+            }
+            freq_map.get(freq).add(key);
         }
-        // This is not applicable to custom class
-        //Arrays.sort(list);
-        //Collections.sort(list)
-        // For custom class, use below and make another
-        // class for comparator. Don't implement in node
-        Collections.sort(list,new IntegerComparator());
-       
-        for(int i=0;i<k;i++)
+        
+        int count = 0;
+        while(count<k)
         {
-            result[i] = list.get(i).key;
+            Map.Entry<Integer, List<Integer>> e = freq_map.pollLastEntry();
+            List<Integer> list = e.getValue();
+            int list_size     = list.size();
+            int i;
+            
+            for(i=0;i<list_size && count+i<k;i++)
+            {
+                result[count+i] = list.get(i);
+            }
+            count+=i;
         }
+        
+        
         return result;
     }
     public static void main(String[] args) {
