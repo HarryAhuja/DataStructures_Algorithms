@@ -11,34 +11,17 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-class FreqNode
-{
-    int key;
-    int freq;
-    
-    public FreqNode()
-    {
-        key  = -1;
-        freq = 0;
-    }
-    
-    public FreqNode(int k,int f)
-    {
-        key  = k;
-        freq = f;
-    }
-}
-
-class CustomComparator implements Comparator<FreqNode>
+class CustomComparator implements Comparator<Map.Entry<Integer, Integer>>
 {
     @Override
-    public int compare(FreqNode o1, FreqNode o2) {
-        return o2.freq-o1.freq;
+    public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+        return o2.getValue()-o1.getValue();
     }
-    
 }
 
 public class TopKFrequentElements {
@@ -49,7 +32,7 @@ public class TopKFrequentElements {
         
         if(n==0)    return result;
         
-        PriorityQueue<FreqNode> pq = new PriorityQueue<>(inp.length,new CustomComparator());
+        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(inp.length,new CustomComparator());
         
         HashMap<Integer,Integer> map = new HashMap<>();
                 
@@ -58,19 +41,20 @@ public class TopKFrequentElements {
            map.put(inp[i],map.getOrDefault(inp[i],0)+1);
         }
         
-        Set<Integer> s = map.keySet();
-        Iterator<Integer> itr = s.iterator();
+        
+        Set<Map.Entry<Integer, Integer>> set = map.entrySet();
+        Iterator<Map.Entry<Integer, Integer>> itr=set.iterator();
         
         while(itr.hasNext())
         {
-            Integer i = itr.next();
-            pq.offer(new FreqNode(i,map.get(i)));
+            Map.Entry<Integer, Integer> e = itr.next();
+            pq.offer(e);
         }
         
         while(k>0 && pq.isEmpty()==false)
         {
-            FreqNode f = pq.poll();
-            result[k-1] = f.key;
+            Map.Entry<Integer, Integer> e = pq.poll();
+            result[k-1] = e.getKey();
             k--;
         }
         
