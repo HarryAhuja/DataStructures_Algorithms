@@ -30,6 +30,7 @@ public class KthSmallestSortedMatrix {
   
     public static int k_smallest_element(int mat[][], int k)
     {
+
         int rows = mat.length;
         int cols = mat[0].length;
         
@@ -37,7 +38,18 @@ public class KthSmallestSortedMatrix {
         
         PriorityQueue<int[]> pq= new PriorityQueue<>(rows*cols,new matrixComparator());
         
-        for(int i=0;i<Math.min(rows, k);i++) pq.offer(new int[] {mat[i][0],i,0});
+        /*
+        Run for minimum of rows and k bcs
+        1.) consider ans is in col=0 and rows, then kth element
+            would be among first k elements
+        2.) if col>0, then ans would be in <k rows
+        3.) Conclusion, you don't need to add elements>k*cols to find kth element
+            It it will always within k*cols where min value of cols=1
+        */
+        for(int i=0;i<Math.min(rows, k);i++)
+        {   
+            pq.offer(new int[] {mat[i][0],i,0});
+        }
         
         // iterate over k times
         for(int i=1;i<k;i++)
