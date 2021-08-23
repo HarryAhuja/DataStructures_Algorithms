@@ -1,25 +1,45 @@
 /*
- * OR
- * After putting in map
- * make a list of entries and sort the list on freq param
- * of the entry
+ * Inp can contain negative numbers
+ * 1.) either make hashmap, will take care
+ * 2.) use modulus for array freq hashmap. Make use of java
+ *     go for 1
  * 
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Set;
 
+class FreqNode
+{
+    int key;
+    int freq;
+    
+    public FreqNode()
+    {
+        key  = -1;
+        freq = 0;
+    }
+    
+    public FreqNode(int k,int f)
+    {
+        key  = k;
+        freq = f;
+    }
+}
+
+class CustomComparator implements Comparator<FreqNode>
+{
+    @Override
+    public int compare(FreqNode o1, FreqNode o2) {
+        return o2.freq-o1.freq;
+    }
+    
+}
 
 public class TopKFrequentElements {
     public static int[] top_k_frequent_elements(int inp[],int k)
@@ -29,53 +49,36 @@ public class TopKFrequentElements {
         
         if(n==0)    return result;
         
-        Map<Integer,Integer> map = new HashMap<>();
+        PriorityQueue<FreqNode> pq = new PriorityQueue<>(inp.length,new CustomComparator());
         
+        HashMap<Integer,Integer> map = new HashMap<>();
+                
         for(int i=0;i<n;i++)
         {
-            if(map.containsKey(inp[i])) map.put(inp[i], map.get(inp[i])+1);
-            else                        map.put(inp[i],1);
+           map.put(inp[i],map.getOrDefault(inp[i],0)+1);
         }
         
+        Set<Integer> s = map.keySet();
+        Iterator<Integer> itr = s.iterator();
         
-        // Max freq of a element can be total length of input array
-        List<Integer> hash_db[] = new List[inp.length+1];
-        
-        for(int i:map.keySet())
+        while(itr.hasNext())
         {
-            int freq = map.get(i);
-            
-            // ArrayList since insertion is at last
-            if(hash_db[freq] == null)   hash_db[freq] = new ArrayList<>();
-            
-            hash_db[freq].add(i);
+            Integer i = itr.next();
+            pq.offer(new FreqNode(i,map.get(i)));
         }
         
-        int count = 0;
-        for(int i=hash_db.length-1;i>=0;i--)
+        while(k>0 && pq.isEmpty()==false)
         {
-            if(hash_db[i]!=null)
-            {
-                List<Integer> list = hash_db[i];
-                int list_size      = list.size();
-                int j              = 0;
-                
-                for(j=0;j<list_size && count+j<k;j++)
-                {
-                    result[count+j] = list.get(j);
-                }
-                
-                count+=j;
-                
-                if(count>=k)    break;
-            }
+            FreqNode f = pq.poll();
+            result[k-1] = f.key;
+            k--;
         }
         
         return result;
     }
     public static void main(String[] args) {
         
-        int nums[] = {1,1,2,2,3,3,4}, k = 2;
+        int nums[] = {-1,-1}, k = 1;
         
         int result[] = top_k_frequent_elements(nums,k);
         
