@@ -1,48 +1,36 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
-public class KthSmallestSortedMatrix {
-    
-    public static int count_elements(int mat[][], int rows,int cols,int target)
-    {
-        int i      = rows-1;
-        int j      = 0;
-        int result = 0;
-        
-        while(i>=0 && j<cols)
-        {
-            if(mat[i][j]>target) i--;
-            else
-            {
-                result += (i+1);
-                j++;
-            }
-        }
-        return result;
-    }
-    public static int k_smallest_element_helper(int mat[][], int k, int rows, int cols)
-    {
-        int low  = mat[0][0];
-        int high = mat[rows-1][cols-1];
-        
-        while(low<=high)
-        {
-            int mid = low + (high-low)/2;
-            
-            int count = count_elements(mat,rows,cols,mid);
-            
-            if(count<k) low  = mid+1;
-            else        high = mid-1;
-        }
-        
-        return low;
-    }
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
+class maxComparator implements Comparator<Integer>
+{
+    @Override
+    public int compare(Integer o1, Integer o2) {
+        return o2-o1;
+    }
+    
+}
+
+public class KthSmallestSortedMatrix {
+  
     public static int k_smallest_element(int mat[][], int k)
     {
         int rows = mat.length;
         int cols = mat[0].length;
         
-        return k_smallest_element_helper(mat, k,rows,cols);
+        PriorityQueue<Integer> pq= new PriorityQueue<>(rows*cols,new maxComparator());
+        
+        for(int i=0;i<rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                pq.offer(mat[i][j]);
+                if(pq.size()>k) pq.poll();
+            }
+        }
+        
+        return pq.peek();
     }
     public static void main(String[] args) {
         
