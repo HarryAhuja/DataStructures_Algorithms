@@ -20,7 +20,7 @@ class CustomComparator implements Comparator<Map.Entry<Integer, Integer>>
 {
     @Override
     public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-        return o2.getValue()-o1.getValue();
+        return -(o2.getValue()-o1.getValue());
     }
 }
 
@@ -49,6 +49,10 @@ public class TopKFrequentElements {
         {
             Map.Entry<Integer, Integer> e = itr.next();
             pq.offer(e);
+            if(pq.size()>k)
+            {
+                pq.poll();
+            }
         }
         
         while(k>0 && pq.isEmpty()==false)
