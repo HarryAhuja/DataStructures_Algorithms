@@ -1,13 +1,27 @@
+/*
+ * Instead of having 2 pointers, I want one pointer each at
+ * one starting of row so that i can compare all the elements
+ * and move the pointer which is smallest
+ * 
+ * This can be done with the help of min Heap
+ * Which ever number is smallest, fetch its row and col from heap
+ * and move the pointer
+ * 
+ * After iterating k times, top of min Heap will give kth 
+ * smallest element
+ * 
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-class maxComparator implements Comparator<Integer>
+class matrixComparator implements Comparator<int[]>
 {
+
     @Override
-    public int compare(Integer o1, Integer o2) {
-        return o2-o1;
+    public int compare(int[] o1, int[] o2) {
+        return o1[0]-o2[0];
     }
     
 }
@@ -19,18 +33,30 @@ public class KthSmallestSortedMatrix {
         int rows = mat.length;
         int cols = mat[0].length;
         
-        PriorityQueue<Integer> pq= new PriorityQueue<>(rows*cols,new maxComparator());
+        if(k==1)    return mat[0][0];    
         
-        for(int i=0;i<rows;i++)
+        PriorityQueue<int[]> pq= new PriorityQueue<>(rows*cols,new matrixComparator());
+        
+        for(int i=0;i<Math.min(rows, k);i++) pq.offer(new int[] {mat[i][0],i,0});
+        
+        // iterate over k times
+        for(int i=1;i<k;i++)
         {
-            for(int j=0;j<cols;j++)
+            int top[] = pq.poll();
+            int r = top[1], c = top[2];
+            
+            // check Next Col
+            // if cols of particular row is exhaused, that
+            // means all elements in that row are checked, no need
+            // to check that row further
+            if(c+1<cols)   
             {
-                pq.offer(mat[i][j]);
-                if(pq.size()>k) pq.poll();
+                pq.offer(new int[] {mat[r][c+1],r,c+1});
             }
+            
         }
         
-        return pq.peek();
+        return (pq.peek())[0];
     }
     public static void main(String[] args) {
         
