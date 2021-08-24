@@ -65,6 +65,8 @@ public class MedianFinder {
                 min_heap.offer(num);
             }
             
+            // Use 2.0 instead of 2 to perform double operation
+            // and avoid integer operation
             result = (max_heap.peek()+min_heap.peek())/2.0;
         }
     }
