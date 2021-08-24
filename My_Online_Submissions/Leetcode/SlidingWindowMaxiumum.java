@@ -1,3 +1,10 @@
+/*
+ * This gives time limit exceeds since
+ * pq.remove(last_element) doesnt take log(k), instead take O(k)
+ * 
+ * So total complexity is O(nk)
+ */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.Comparator;
@@ -23,6 +30,7 @@ public class SlidingWindowMaxiumum {
         int result_index = 0;
         
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(k,new Compare());
+        
         
         int i = 0;
         
