@@ -10,11 +10,28 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-class Compare implements Comparator<Integer>
+class Node
+{
+    int key;
+    int index;
+    
+    public Node()
+    {
+        key   = -1;
+        index = -1;
+    }
+    
+    public Node(int k,int i)
+    {
+        key   = k;
+        index = i;
+    }
+}
+class Compare implements Comparator<Node>
 {
     @Override
-    public int compare(Integer o1, Integer o2) {
-        return o2-o1;
+    public int compare(Node o1, Node o2) {
+        return o2.key-o1.key;
     }
     
 }
@@ -29,30 +46,33 @@ public class SlidingWindowMaxiumum {
         int result[] = new int[n-k+1];
         int result_index = 0;
         
-        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(k,new Compare());
-        
+        PriorityQueue<Node> pq = new PriorityQueue<Node>(k,new Compare());
         
         int i = 0;
         
         while(i<k && i<n)
         {
-            pq.offer(inp[i++]);
+            pq.offer(new Node(inp[i],i));
+            i++;
         }
         
-        result[result_index++] = pq.peek();
+        result[result_index++] = pq.peek().key;
         
         if(i==n)    return result;
 
         while(i<n)
         {
-            int last_element = inp[i-k];
             int curr_element = inp[i];
             
-            pq.remove(last_element);
+            pq.add(new Node(curr_element,i));
             
-            pq.add(curr_element);
-            
-            result[result_index++] = pq.peek();
+            while((pq.isEmpty() == false) && (pq.peek().index<(i-k+1)))
+            {
+                pq.poll();
+                
+            }
+
+            result[result_index++] = pq.peek().key;
             i++;
         }
         
