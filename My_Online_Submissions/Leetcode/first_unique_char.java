@@ -23,38 +23,55 @@
 */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+
+
 public class first_unique_char
 {
-    static int hash_map; 
-
     public static int firstUniqChar(String s) {
         
         int len = s.length();
-
+        
         if(0 == len)    return -1;
 
-        // This is important to reset for every test case
-        hash_map         = 0;
-
-        int ascii_offset = 0;
-        int ans          = -1;
+        LinkedHashMap<Character,Integer> map = new LinkedHashMap<Character,Integer>();
         
-        for(int i=len-1; i>=0; i--)
+        for(int i=0;i<len;i++)
         {
-             ascii_offset = s.charAt(i)-'a';
-             
-            if(((hash_map>>ascii_offset)&0x1)==0)
+            char c = s.charAt(i);
+            if(map.containsKey(c))
             {
-                ans = i;
-                hash_map = hash_map | (1<<ascii_offset);
+                // Here exact index of duplicate is not required.
+                // Need only to check if freq >=2, hence duplicate and index=-1
+                map.put(c, -1);     
             }
-            else if( (ans!=-1) && (s.charAt(i) == s.charAt(ans)))   // "bbdd"
+            else
             {
-                ans = -1;
+                map.put(c,i);
             }
         }
 
-        return ans;
+        Set<Map.Entry<Character, Integer>> set = map.entrySet();
+        Iterator<Map.Entry<Character, Integer>> itr = set.iterator();
+        
+        while(itr.hasNext())
+        {
+            // Since we already gave generic in Iterator
+            // itr.next() will return same. No need of type casting
+            Map.Entry<Character, Integer> e = itr.next();
+            Integer index = e.getValue();
+            
+            if(index!=-1)    return index;
+        }
+        
+        return -1;
         
     }
     public static void main(String[] args)
