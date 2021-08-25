@@ -20,10 +20,23 @@
  * How to set kth bit
  * n = n | (1<<k);
  * 
+ * 
+ * Approach 3:
+ * Linked hashmap for maintaining insertion order
+ * 
+ * Approach 4:
+ * store index in 256 array
+ * iterate over 256 and get the minimum index of freq=1
+ * 
+ * Here we don't need freq exactly
+ * Store -1 when freq >=2 as a flag
+ * So 1d array of index only is enough
+ * 
 */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -41,37 +54,27 @@ public class first_unique_char
         
         if(0 == len)    return -1;
 
-        LinkedHashMap<Character,Integer> map = new LinkedHashMap<Character,Integer>();
+        int index_arr[] = new int[26];
+        
+        // Dont fill with this -1 bcs -1 is the flag for freq>=2
+        // you can't differentiate bw initial and freq>=2 case
+        Arrays.fill(index_arr, len);
         
         for(int i=0;i<len;i++)
         {
-            char c = s.charAt(i);
-            if(map.containsKey(c))
-            {
-                // Here exact index of duplicate is not required.
-                // Need only to check if freq >=2, hence duplicate and index=-1
-                map.put(c, -1);     
-            }
-            else
-            {
-                map.put(c,i);
-            }
-        }
-
-        Set<Map.Entry<Character, Integer>> set = map.entrySet();
-        Iterator<Map.Entry<Character, Integer>> itr = set.iterator();
-        
-        while(itr.hasNext())
-        {
-            // Since we already gave generic in Iterator
-            // itr.next() will return same. No need of type casting
-            Map.Entry<Character, Integer> e = itr.next();
-            Integer index = e.getValue();
+            int ascii_offset = s.charAt(i)-'a';
             
-            if(index!=-1)    return index;
+            if(index_arr[ascii_offset] == len)      index_arr[ascii_offset] = i;
+            else if(index_arr[ascii_offset]!=len)   index_arr[ascii_offset] = -1;
         }
         
-        return -1;
+        int ans = len;
+        for(int i=0;i<26;i++)
+        {
+            if(index_arr[i]!=-1 && index_arr[i]!=len)    ans = Math.min(ans, index_arr[i]);
+        }
+        
+        return (ans==len)?-1:ans;
         
     }
     public static void main(String[] args)
