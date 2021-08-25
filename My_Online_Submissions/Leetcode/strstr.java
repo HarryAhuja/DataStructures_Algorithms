@@ -11,7 +11,8 @@
  * substring should start from i
  * 
  * that is why use brute force first
- * then kmp or raben karp
+ * then kmp or raben karp or boyre moore
+ * But if string is small, then don't run
  * 
  * it doesn't start from first r but second r
  * while comparing from first r, we can't skip full target
