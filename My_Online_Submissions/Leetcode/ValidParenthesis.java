@@ -3,14 +3,9 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 import java.util.HashMap;
 
 public class ValidParenthesis {
-    
-    static HashMap<Character,Character> map = new HashMap<>();
-    
+   
     public static boolean is_valid(String inp)
     {
-        map.put('[', ']');
-        map.put('{', '}');
-        map.put('(', ')');
         
         int n = inp.length();
         
@@ -23,21 +18,28 @@ public class ValidParenthesis {
         {
             char c = inp.charAt(i);
             
-            if(c=='{' || c=='[' || c=='(')
+            switch(c)
             {
-                charMap[top++] = c;
+                case '(':
+                    charMap[top++] = ')';
+                    break;
+                case '{':
+                    charMap[top++] = '}';
+                    break;
+                case '[':
+                    charMap[top++] = ']';
+                    break;
+                default:
+                    if(c=='}' || c==']' || c==')')
+                    {
+                        if(top-1<0)             return false;
+                        if(c != charMap[top-1]) return false;
+                        top--;
+                    }
+                    else    return false;
+                    break;
             }
-            else if (c=='}' || c==']' || c==')')
-            {
-                // Starting is close bracket
-                // or there is no open bracket left
-                if(top-1<0) return false;
-                
-                if(c != map.get(charMap[top-1])) return false;
-                
-                top--;
-            }
-            else    return false;
+            
         }
         
         return (top!=0)?false:true;
