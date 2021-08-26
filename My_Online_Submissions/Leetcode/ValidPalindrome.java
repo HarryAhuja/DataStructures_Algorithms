@@ -7,6 +7,12 @@ public class ValidPalindrome {
             return true;
         return false;
     }
+    public static boolean is_alpbhabet(char c)
+    {
+        if((c>='A' && c<='Z') || (c>='a' && c<='z'))
+            return true;
+        return false;
+    }
     public static boolean isPalindrome(String s)
     {
         int n = s.length();
@@ -28,7 +34,18 @@ public class ValidPalindrome {
                 
                 // Can't do like this bcs diff 32 can be for
                 // mismatching chars also
-                if(diff == 32 || diff == 0)
+                // Case insenstive only occurs for alphabets so put
+                // check that both should be alphabets
+                if(is_alpbhabet(ith_char) && is_alpbhabet(jth_char))
+                {
+                    if(diff == 32 || diff == 0)
+                    {
+                        i++;
+                        j--;
+                    }
+                    else return false;
+                }
+                else if(diff == 0)
                 {
                     i++;
                     j--;
@@ -42,7 +59,7 @@ public class ValidPalindrome {
     }
     public static void main(String[] args) {
         
-        String inp = "A man, a plan, a canal: Panama";
+        String inp = "0P";
         System.out.println(isPalindrome(inp));
     }
 
