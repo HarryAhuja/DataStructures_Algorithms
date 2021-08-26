@@ -1,5 +1,7 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 
 public class ValidParenthesis {
@@ -11,8 +13,7 @@ public class ValidParenthesis {
         
         if(n==0)    return false;
         
-        char charMap[] = new char[n];
-        int  top       = 0;
+        Deque<Character> p = new ArrayDeque<>(n);
         
         for(int i=0;i<n;i++)
         {
@@ -20,29 +21,15 @@ public class ValidParenthesis {
             
             switch(c)
             {
-                case '(':
-                    charMap[top++] = ')';
-                    break;
-                case '{':
-                    charMap[top++] = '}';
-                    break;
-                case '[':
-                    charMap[top++] = ']';
-                    break;
-                default:
-                    if(c=='}' || c==']' || c==')')
-                    {
-                        if(top-1<0)             return false;
-                        if(c != charMap[top-1]) return false;
-                        top--;
-                    }
-                    else    return false;
-                    break;
+                case '(': p.push(')'); break;
+                case '{': p.push('}'); break;
+                case '[': p.push(']'); break;
+                default : if (p.isEmpty() || p.pop() != inp.charAt(i)) return false;
             }
             
         }
         
-        return (top!=0)?false:true;
+        return p.isEmpty();
     }
     public static void main(String[] args) {
         //String inp = "{}}";
