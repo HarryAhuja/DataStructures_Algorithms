@@ -1,18 +1,15 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class ValidPalindrome {
-    public static boolean is_alphanumeric(char c)
+    public static boolean is_alphanumeric(String s)
     {
+        char c = s.charAt(0);
+        
         if((c>='A' && c<='Z') || (c>='a' && c<='z') || (c>='0' && c<='9'))
             return true;
         return false;
     }
-    public static boolean is_alpbhabet(char c)
-    {
-        if((c>='A' && c<='Z') || (c>='a' && c<='z'))
-            return true;
-        return false;
-    }
+    
     public static boolean isPalindrome(String s)
     {
         int n = s.length();
@@ -23,37 +20,23 @@ public class ValidPalindrome {
         
         while(i<j)
         {
-            char  ith_char = s.charAt(i);
-            char  jth_char = s.charAt(j);
-            boolean low    = is_alphanumeric(ith_char);
-            boolean high   = is_alphanumeric(jth_char);
+            String  ith_str = s.charAt(i)+"";
+            String  jth_str = s.charAt(j)+"";
             
-            if((low == true) && (high == true))
+            boolean low  = is_alphanumeric(ith_str);
+            boolean high = is_alphanumeric(jth_str);
+            
+            if(low == true && high==true)
             {
-                int diff = Math.abs(ith_char-jth_char);
-                
-                // Can't do like this bcs diff 32 can be for
-                // mismatching chars also
-                // Case insenstive only occurs for alphabets so put
-                // check that both should be alphabets
-                if(is_alpbhabet(ith_char) && is_alpbhabet(jth_char))
-                {
-                    if(diff == 32 || diff == 0)
-                    {
-                        i++;
-                        j--;
-                    }
-                    else return false;
-                }
-                else if(diff == 0)
-                {
-                    i++;
-                    j--;
+                if(ith_str.equalsIgnoreCase(jth_str))
+                {    
+                    i++;j--;
                 }
                 else    return false;
             }
-            else if(low == false)   i++;
-            else                    j--;
+            else if(low==false) i++;
+            else                j--;
+            
         }
         return true;
     }
