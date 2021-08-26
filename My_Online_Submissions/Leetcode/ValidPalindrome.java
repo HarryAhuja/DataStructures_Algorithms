@@ -25,6 +25,9 @@ public class ValidPalindrome {
             if((low == true) && (high == true))
             {
                 int diff = Math.abs(ith_char-jth_char);
+                
+                // Can't do like this bcs diff 32 can be for
+                // mismatching chars also
                 if(diff == 32 || diff == 0)
                 {
                     i++;
