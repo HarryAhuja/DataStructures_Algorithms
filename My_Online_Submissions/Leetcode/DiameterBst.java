@@ -1,3 +1,11 @@
+/*
+ * although the longest path doesn't have to go through the root node, 
+ * it has to pass the root node of some subtree of the tree (because it has to be 
+ * from one leaf node to another leaf node, otherwise we can extend it for free). 
+ * The longest path that passes a given node as the ROOT node is T = left_height+right_height. 
+ * So you just calculate T for all nodes and output the max T.
+ * 
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class DiameterBst {
