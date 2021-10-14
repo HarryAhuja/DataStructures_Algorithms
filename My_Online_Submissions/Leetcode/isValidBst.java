@@ -22,6 +22,11 @@
  *  otherwise pointer kind of thing will happen
  *  Don't --> ans = m
  *  Do    ->  ans.is_bst = m.is_bst
+ *  
+ *  (long)m.min = Integer.MAX_VALUE+1L -> correct
+ *  (long)m.min = Integer.MAX_VALUE+1 -> incorrect(wrap around)
+ *  
+ *  To store in long, atleast one operand on right side should be long
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
@@ -70,10 +75,8 @@ public class isValidBst {
     public static boolean isValidBST(TreeNode root) {
         
         MIN_MAX m = new MIN_MAX();
-        m.min = Integer.MAX_VALUE;
-        m.max = Integer.MIN_VALUE;
-        m.min+=1;
-        m.max-=1;
+        m.min = Integer.MAX_VALUE+1L;
+        m.max = Integer.MIN_VALUE-1L;
         m.is_bst = true;
         
         MIN_MAX res = isValidBSTHelper(root,m);
