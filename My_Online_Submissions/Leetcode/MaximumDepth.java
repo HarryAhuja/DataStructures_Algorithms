@@ -17,7 +17,7 @@ public class MaximumDepth {
     }
     public static void main(String[] args) {
         TreeNode root = new TreeNode(3);
-        maxDepth(root);
+        System.out.println(root);
     }
 
 }
