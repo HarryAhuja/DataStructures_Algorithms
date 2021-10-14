@@ -28,31 +28,22 @@ public class InorderSuccessorBST {
         
         return find_min(root.left);
     }
+    public static int find_ancestor(TreeNode root,TreeNode target,int anc)
+    {
+        if(root == null)    return -1;
+        
+        if(target.val>root.val) return find_ancestor(root.right, target,anc);
+        if(target.val<root.val) return find_ancestor(root.left, target,root.val);
+        
+        return anc;
+    }
     public static int inoder_successor(TreeNode root,TreeNode target)
     {
         if(root == null)    return -1;
         
         if(target.right!=null)  return find_min(target.right);
         
-        int succ = -1;
-        
-        while(root!=null)
-        {
-            if(target.val>root.val)
-            {
-                root = root.right;
-            }
-            else if(target.val<root.val)
-            {
-                succ = root.val;
-                root = root.left;
-            }
-            else
-            {
-                break;
-            }
-        }
-        return succ;
+        return find_ancestor(root,target,-1);
     }
     public static void main(String[] args) {
         TreeNode root = new TreeNode(20);
@@ -63,7 +54,7 @@ public class InorderSuccessorBST {
         root.left.right.left = new TreeNode(10);
         root.left.right.right = new TreeNode(14);
         
-        System.out.println(inoder_successor(root,root.left.right.right));
+        System.out.println(inoder_successor(root,root.left.right.left));
     }
 
 }
