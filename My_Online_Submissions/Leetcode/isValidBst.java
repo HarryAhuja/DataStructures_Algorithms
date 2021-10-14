@@ -17,6 +17,11 @@
  *  Above approach will also not work since
  *  global variables can't differentiate between
  *  max of left(4*,5) or max of left subtree(3*,6,7)
+ *  
+ *  In bottom up approach, always deep copy local variables
+ *  otherwise pointer kind of thing will happen
+ *  Don't --> ans = m
+ *  Do    ->  ans.is_bst = m.is_bst
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
