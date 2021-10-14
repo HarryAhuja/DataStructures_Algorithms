@@ -27,6 +27,15 @@
  *  (long)m.min = Integer.MAX_VALUE+1 -> incorrect(wrap around)
  *  
  *  To store in long, atleast one operand on right side should be long
+ *  
+ *  When arithmetic is performed on integers, the result will always be an integer.
+ *  You can assign that result to a long, double, or float with automatic type conversion,
+ *  but having started as an int or long, the result will likely not be what you expect.
+ *  For instance, if the result of int division is assigned to a floating-point variable,
+ *  precision will have been lost before the assignment. Likewise, if the result of 
+ *  multiplication is assigned to a long, it may have already overflowed before the assignment.
+ *  In either case, the result will not be what was expected. Instead, at least one operand 
+ *  should be cast or promoted to the final type before the operation takes place.
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
