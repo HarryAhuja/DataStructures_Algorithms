@@ -1,3 +1,8 @@
+/*
+ * Pushing right first bcs we need information of right
+ * for connecting next of left
+ * This solution needs extra space
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.ArrayDeque;
