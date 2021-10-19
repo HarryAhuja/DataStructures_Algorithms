@@ -1,12 +1,10 @@
 /*
- * Pushing right first bcs we need information of right
- * for connecting next of left
- * This solution needs extra space
+ * This solution works because we are doing pre-order
+ * We are connecting root->next to its required node before moving
+ * to left and right
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 class RightNode {
     public int val;
@@ -32,31 +30,27 @@ class RightNode {
 
 public class PopulatingNextRightPointers {
     
+    public static RightNode connect_helper(RightNode root,RightNode next)
+    {
+       if(root == null) return null;
+       
+       root.next = next;                     //preorder
+       
+       // Next would always be right of same root
+       connect_helper(root.left,root.right); 
+       // Next of right will either null(in case its last node of level)
+       // or root.next.left bcs left will never be null(complete tree)
+       // If not a complete tree, then we have to think
+       // Then can't connect to null for in between node of level
+       connect_helper(root.right,(root.next==null?null:root.next.left));
+       
+       return root;
+       
+    }
+    
     public static RightNode connect(RightNode root)
     {
-       if(root == null) return root;
-       
-       Queue<RightNode> queue = new ArrayDeque<>();
-       queue.offer(root);
-       
-       while(queue.isEmpty()==false)
-       {
-           int       size = queue.size();
-           RightNode prev = null;
-           
-           for(int i=0;i<size;i++)
-           {
-               RightNode front = queue.poll();
-               front.next      = prev;
-               prev            = front;
-               
-               if(front.right != null)   queue.offer(front.right);
-               if(front.left  != null)   queue.offer(front.left);
-
-           }
-       }
-
-       return root;
+       return connect_helper(root,null);
     }
     
     public static void main(String a[])
