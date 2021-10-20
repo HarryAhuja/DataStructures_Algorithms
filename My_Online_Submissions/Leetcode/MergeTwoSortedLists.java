@@ -1,6 +1,7 @@
 /**
- * To handle initialsation issue of head, create dummy node
- * and include head operation also with normal operation
+ * I don't like this approach. Because in real life, the length of a linked list 
+ * could be much longer than we expected, in which case the recursive approach is 
+ * likely to introduce a stack overflow. (Imagine a file system)
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
@@ -11,28 +12,24 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 public class MergeTwoSortedLists {
 
     public static LinkedListNode mergeTwoLists(LinkedListNode l1, LinkedListNode l2) {
+        if(l1==null) return l2;
+        if(l2==null) return l1;
+
+        LinkedListNode result;
         
-        LinkedListNode dummy = new LinkedListNode(0);
-        LinkedListNode iter  = dummy;
-        
-        while(l1!=null && l2!=null)
+        if(l1.val<l2.val)
         {
-            if(l1.val<l2.val)
-            {
-                iter.next = l1;
-                l1 = l1.next;
-            }
-            else
-            {
-                iter.next = l2;
-                l2 = l2.next;
-            }
-            iter = iter.next;
+            result = l1;
+            result.next = mergeTwoLists(l1.next, l2);
         }
-        if(l1==null)    iter.next = l2;
-        else            iter.next = l1;
+        else
+        {
+            result = l2;
+            result.next = mergeTwoLists(l1, l2.next);
+        }
         
-        return dummy.next;
+        return result;
+        
     }
     public static void main(String[] args) {
         // TODO Auto-generated method stub
