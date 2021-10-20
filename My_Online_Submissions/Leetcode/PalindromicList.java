@@ -35,7 +35,7 @@ public class PalindromicList {
         }
         
         // Let right half be smaller
-        // 1.) In case of odd nodes, skip central node so that
+        // 1.) In case of odd nodes, skip central node so that to reverse from next node
         // 2.) while(slow!=null) -> slow can become null before
         //     first half 
         // 3.) if we don't make it smaller then also it will work
