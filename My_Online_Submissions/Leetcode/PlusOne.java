@@ -18,6 +18,10 @@ public class PlusOne {
             carry         = (digits[index]==0)?1:0;
             index--;
         }
+        // Assumptions that msb can't be 0. That means if digits[0] is
+        // 0 that means all its trailing numbers should be 0
+        // Therefor no need for copying digits 1 to n to result
+        
         //All 9s case
         if(carry>0)
         {
