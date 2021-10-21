@@ -1,8 +1,8 @@
 /*
- * Brute force : O(n3)
- * 
- * We need two loops for limit of i and j
- * One loop to get sum from i to j
+ * Brute force : O(n2)
+ * Since j is always incrementing by 1, we can calculate sum
+ * while incrementing j rather than looping again over from 
+ * i to j
  * 
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -20,17 +20,15 @@ public class MaximumSubarray {
         
         if(n==0)    return 0;
         
-        for(int len=1;len<=n;len++)
-        {
-            for(int i=0;i<=n-len;i++)
+        for(int i=0;i<n;i++)
+        {   
+            int sum = 0;
+            for(int j=i;j<n;j++)
             {
-                int sum = 0;
-                for(int j=i;j<i+len;j++)
-                {
-                    sum+=nums[j];
-                }
+                sum+=nums[j];
                 ans = max(ans,sum);
             }
+            
         }
         return ans;
     }
