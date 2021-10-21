@@ -8,33 +8,32 @@ public class PlusOne {
         
         if(n == 0)  return new int[] {};
         
-        for(int i=n-1;i>=0;i--)
+        int carry = 1; //plus one
+        int index = digits.length-1;
+        
+        // when carry==0, that means +1 is done at somewhere
+        while(index>=0 && carry>0)
         {
-            if(digits[i]<9)
-            {
-                digits[i]+=1;
-                return digits;
-            }
-            // Any digit == 9 will be filled with 0
-            // And in next iteration, its next bit will be incremented
-            // by 1 if less than 9. If not less than 9,filled with 0
-            digits[i] = 0;
+            digits[index] = (digits[index]+carry)%10;
+            carry         = (digits[index]==0)?1:0;
+            index--;
+        }
+        //All 9s case
+        if(carry>0)
+        {
+            int result[] = new int[n+1];
+            result[0] = 1;
+            // return new length array only in this case
+            return result;
         }
         
-        // This line would only hit in following cases(all 9)
-        // 9,99,999. Because if any of the digit is less than 9, it
-        // will return from above
-        // index from 1 to n will be filled with 0 by default
-        // we only need to fill one 1 at start
-        int result[] = new int[n+1];
-        result[0] = 1;
-        
-        return result;
+        // Return default size array
+        return digits;
         
     }
     public static void main(String[] args) {
 
-        int digits[] = {9};
+        int digits[] = {1,2,3};
         int res[] = plusOne(digits);
         for(int i=0;i<res.length;i++)
         {
