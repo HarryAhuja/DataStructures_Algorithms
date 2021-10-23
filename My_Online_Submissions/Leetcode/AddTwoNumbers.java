@@ -1,6 +1,11 @@
+/*
+ * In place 3s cases
+ * 1.) l1 len ==l2 len -> add last node if carry
+ * 2) if l1>l2 -> same case, add 0 when l2 is null
+ * 3.) if l1<l2-> use l1 full length and then connect it to longer part of l2
+ * 
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
-
-import java.util.LinkedList;
 
 public class AddTwoNumbers {
     
@@ -20,8 +25,8 @@ public class AddTwoNumbers {
         else if(l2==null)   return l1;
         
         LinkedListNode iter1 = l1, iter2 = l2;
-        LinkedListNode dummy = new LinkedListNode(0);
-        LinkedListNode temp = dummy;
+        
+        LinkedListNode temp = l1 , prev = null;
         
         int carry = 0;
 
@@ -29,20 +34,29 @@ public class AddTwoNumbers {
         {
             int sum = (iter1==null?0:iter1.val)+(iter2==null?0:iter2.val) + carry;
             
-            temp.next = new LinkedListNode(sum%10);
+            if(temp!=null)
+            {
+                // do nothing
+            }
+            else
+            {
+                temp = iter2;
+                prev.next = temp;
+            }
+            temp.val = (sum%10);
+            
             carry = sum/10;
+            
+            prev = temp;
             
             temp  = temp.next;
             iter1 = (iter1==null?null:iter1.next);
             iter2 = (iter2==null?null:iter2.next);
         }
         
-        if(carry==1)
-        {
-            temp.next = new LinkedListNode(1);
-        }
+        if(carry==1) prev.next = new LinkedListNode(1);    
         
-        return dummy.next;
+        return l1;
     }
     public static void main(String[] args) {
         
@@ -53,7 +67,6 @@ public class AddTwoNumbers {
         head1.next.next.next.next      = new LinkedListNode(9);
         head1.next.next.next.next.next      = new LinkedListNode(9);
         head1.next.next.next.next.next.next      = new LinkedListNode(9);
-        head1.next.next.next.next.next.next.next      = new LinkedListNode(9);
         
         LinkedListNode head2 = new LinkedListNode(9);
         head2.next           = new LinkedListNode(9);
