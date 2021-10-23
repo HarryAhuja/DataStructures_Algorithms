@@ -7,6 +7,9 @@
  *  
  *  Solution : Don't modify the list, pass tail as param
  *  and put stopping condition on that
+ *  
+ *  We can cut also into two halves(make last_node of first half->null)
+ *  if modification in input is allowed
  * 
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
