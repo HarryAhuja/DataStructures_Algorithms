@@ -19,6 +19,18 @@
  *     3->2->1->4  --> but this is wrong bcs acc to this 1 is older than 2 bcs of
  *     sequence but it is not the case. 1 is mostly used than 2.
  *     So instead of replacing move in sequence
+ *     
+ *  Like the checking of head is skipped with dummy head, same can be done with
+ *  dummy tail
+ *  
+ *  However, there will be one tricky thing you must handle if you use a singly linked list.
+ *   Let's say we want to delete a node in the list. (I'll call it currNode for example) 
+ *   We can look up the address of currNode from the dictionary. Since the list is singly 
+ *   linked, we don't know what the previous node is. So the only method to delete currNode 
+ *   is to copy the contents (val , next) of the next node into the current node, and delete
+ *   the next node. The tricky part is, now currNode will have the contents of the next node,
+ *   but the dictionary will have the old key, value pair. So you have to delete that key,
+ *   value pair and make a new one for the updated currNode.
  *  
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -48,42 +60,16 @@ public class LRUCache {
         size         = 0;
         max_capacity = capacity;
         list         = new DoubleNode();
-        tail         = list;
+        tail         = new DoubleNode();
+        list.next    = tail;
+        tail.prev    = list;
         map          = new HashMap<>();
     }
     
     public static void remove_node_in_ll(DoubleNode node)
     {
-        // Three case: head, random,tail node
-        
-        //Tail
-        // 3 case: tail is same as head, tail is first node, tail is last node
-        // Dummy, Dummy->tail, dummy->n1->n2->tail
-        // 1st case can't be there bcs caller is called only when key is present
-        // and 1st case only arises if there is no key
-        if(node==tail)
-        {
-            tail.prev.next = null;
-            tail           = tail.prev;
-        }
-        // Head
-        // 3 cases-> list.next is null , Dummy->node, Dummy->node->n2
-        // 1st case will not arise bcs of same explanation
-        else if(node==list.next)
-        {
-            node.prev.next = node.next;
-            // 2nd case
-            if(node.next!=null) node.next.prev = list;
-        }
-        // Random node
-        else
-        {
-            node.prev.next = node.next;
-            if(node.next!=null) node.next.prev = node.prev;
-        }
-       
-        node.prev      = null;
-        node.next      = null;
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
     }
     public static void add_node_in_ll(DoubleNode node)
     {
@@ -93,10 +79,8 @@ public class LRUCache {
         node.next      = list.next;
         node.prev      = list;
         list.next      = node;
-        if(node.next!=null) node.next.prev = node;
+        node.next.prev = node;
         
-        //update tail
-        if(tail==list)  tail = node;
     }
     
     public static void move_to_head(DoubleNode node)
@@ -117,10 +101,10 @@ public class LRUCache {
         // Remove from hashmap
         // we can't do tail.val bcs key and val can be different
         // Because of this we have to store key as well in node
-        map.remove(tail.key);
+        map.remove(tail.prev.key);
         
         // re-using function
-        remove_node_in_ll(tail);   
+        remove_node_in_ll(tail.prev);   
     }
     
     public static int get(int key)
