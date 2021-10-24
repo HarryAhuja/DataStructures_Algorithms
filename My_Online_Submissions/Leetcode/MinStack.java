@@ -1,5 +1,18 @@
 /*
  * Space : O(2N)
+ * 
+ * 
+ * |  d,a   |
+ * |  c,a   |
+ * |  b,a   |
+ * |  a,a   |
+ * |        |
+ * 
+ * Suppose a is min element among elements from a to d
+ * So whenever getMin() is called within this range, a will be returned
+ * if any other element is min above d, it will be updated
+ * a will remain min among this range till a is popped at last
+ * 
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
