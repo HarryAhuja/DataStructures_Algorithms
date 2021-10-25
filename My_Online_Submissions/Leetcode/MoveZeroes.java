@@ -1,12 +1,7 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class MoveZeroes {
-    public static void swap(int nums[],int a,int b)
-    {
-        int temp = nums[a];
-        nums[a]  = nums[b];
-        nums[b]  = temp;
-     }
+    
     public static void moveZeroes(int[] nums)
     {
         int index = 0;
@@ -16,11 +11,15 @@ public class MoveZeroes {
             if(nums[i]!=0)
             {
                 // Don't swap two same elements
-                if(index!=i)    swap(nums,index,i);
+                if(index!=i)    nums[index] = nums[i];
                 
                 // must be done in both cases
                 index++;
             }
+        }
+        for(int i=index;i<nums.length;i++)
+        {
+            nums[i] = 0;
         }
     }
     public static void main(String[] args) {
