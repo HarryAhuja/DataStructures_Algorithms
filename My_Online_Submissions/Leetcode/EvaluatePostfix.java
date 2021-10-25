@@ -31,21 +31,21 @@ public class EvaluatePostfix {
                 Integer result;
                 switch(s)
                 {
-                case "+":
-                    result = oper2+oper1;
-                    break;
-                case "-":
-                    // take care of oper2-oper1
-                    result = oper2-oper1;
-                    break;
-                case "*":
-                    result = oper2*oper1;
-                    break;
-                case "/":
-                    result = oper2/oper1;
-                    break;
-                default:
-                    return -1;
+                    case "+":
+                        result = oper2+oper1;
+                        break;
+                    case "-":
+                        // take care of oper2-oper1
+                        result = oper2-oper1;
+                        break;
+                    case "*":
+                        result = oper2*oper1;
+                        break;
+                    case "/":
+                        result = oper2/oper1;
+                        break;
+                    default:
+                        return -1;
                 }
                 stack.push(result);
             }
