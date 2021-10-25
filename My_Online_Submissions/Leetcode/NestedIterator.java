@@ -22,46 +22,43 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class NestedIterator
 {
-    List<Integer> flatten = null;
-    int current;
+    Stack<NestedInteger> stack = null;
+    
     public NestedIterator(List<NestedInteger> nested_list)
     {
-        current = 0;
-        flatten = new ArrayList<Integer>();
+        stack   = new Stack<NestedInteger>();
         
-        for(int i=0;i<nested_list.size();i++)
+        helper(nested_list);
+        
+        while(stack.isEmpty()==false && (stack.peek().isInteger()==false))
         {
-            helper(nested_list.get(i));
+            List<NestedInteger> l = (stack.pop()).getList();
+            helper(l);
         }
-        
     }
     
     public Integer next()
     {
-        return flatten.get(current++);
+        return stack.pop()
     }
     
     public boolean hasNext()
     {
         return current<flatten.size();
     }
-    private void helper(NestedInteger value)
+    private void helper(List<NestedInteger> nested_list)
     {
-        // this value can be integer or a list
-        // if its a list then getList method fill return the list
-        if(value.isInteger()==true) flatten.add(value.getInteger());
-        else
+        // Put it in reverse order such that first element appears at the top
+        // when called next, we can directly return
+        for(int i=nested_list.size()-1;i>=0;i--)
         {
-            List<NestedInteger> l = value.getList();
-            // Iterate over the list and do same thing
-            for(int i=0;i<l.size();i++)
-            {
-                helper(l.get(i));
-            }
+            stack.push(nested_list.get(i));
         }
+        
     }
     
     
