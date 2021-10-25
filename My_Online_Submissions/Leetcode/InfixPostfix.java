@@ -70,6 +70,7 @@ public class InfixPostfix {
             else if(is_operator(c)==true)
             {
                 operands.push(num);
+                
                 // c is asking higher precedence to process first
                 while(operator.isEmpty()==false && precedence(operator.peek())>=
                                                    precedence(c))
