@@ -15,13 +15,16 @@ public class MoveZeroes {
         {
             if(nums[i]!=0)
             {
-                swap(nums,index,i);
+                // Don't swap two same elements
+                if(index!=i)    swap(nums,index,i);
+                
+                // must be done in both cases
                 index++;
             }
         }
     }
     public static void main(String[] args) {
-        int nums[]= {0,1,0,3,12};
+        int nums[]= {1,0,2,3,12};
         moveZeroes(nums);
         
         for(int i=0;i<nums.length;i++)
