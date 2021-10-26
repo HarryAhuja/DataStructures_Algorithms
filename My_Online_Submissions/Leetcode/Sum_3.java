@@ -14,7 +14,11 @@ public class Sum_3 {
         // a will move till third last index
         for(int i=0;i<nums.length-2;i++)
         {
-            if(i==0 || (i>0 && nums[i]!=nums[i-1]))
+            // if first element >0, its impossible to make sum zero
+            // as input array is sorted
+            if(nums[i]>0)   break;
+            
+            if(i==0 || nums[i]!=nums[i-1])
             {
                 int target = -(nums[i]);
                 int low    = i+1;
