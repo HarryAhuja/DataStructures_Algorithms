@@ -1,13 +1,10 @@
 /*
- *   A ^ A = 0
- *   0 ^ A = A
+ *   Sum from 0 to n
+ *   Subtract all numbers. Remaining would be the answer
  *   
- *   suppose 2 is missing
- *   index = 0 1 2 
- *   value = 0 1 3
+ *   index  0+1+2+3+4
+ *   inp[i] 0+1+ +3+4
  *   
- *   if we xor indices from 0 to n and available values, missing will be left
- *   (0^1^2^3)^0^1^3=2
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
@@ -21,15 +18,14 @@ public class MissingNumber {
         
         if(n==0)    return -1;
         
-        int result = 0;
+        int sum = 0;
         for(int i=0;i<n;i++)
         {
-            result^=inp[i];
-            result^=i;
+            sum +=i;
+            sum -=inp[i];
         }
-        result^=n;      // xor with nth index
         
-        return result;
+        return sum+n;
     }
     public static void main(String[] args) {
         
