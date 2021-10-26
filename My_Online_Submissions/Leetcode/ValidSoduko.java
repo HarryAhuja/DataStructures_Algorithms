@@ -81,11 +81,11 @@ public class ValidSoduko
                 // skipping 3 cells in horizontal direction
                 // c%3 for col is done bcs of vertical direction
                 
-                int actual_row_index_of_cell = (r/3) + (c/3); 
-                int actual_col_index_of_cell = (r/3) + (c%3);
+                int actual_row_index = 3*(r/3) +(c/3);
+                int actual_col_index = 3*(r/3) +(c%3);
                 
-                if(board[actual_row_index_of_cell][actual_col_index_of_cell]!='.' &&
-                   (box_set.add(board[actual_row_index_of_cell][actual_col_index_of_cell])==false))
+                if(board[actual_row_index][actual_col_index]!='.' &&
+                  !box_set.add(board[actual_row_index][actual_col_index]))
                 {
                     return false;
                 }
