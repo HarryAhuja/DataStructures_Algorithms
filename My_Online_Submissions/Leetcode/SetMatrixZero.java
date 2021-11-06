@@ -1,21 +1,12 @@
 /*
- *  0 1 2 0
- *  3 4 5 0
- *  1 2 3 2
- *  
- *   0  0  0
- *   0 -1  0  -> when i am at this zero, i need to check all 4 sides
- *   0 -1  0     where ever -1 is there, that means that row/col is not set yet
- *               by some other row/col
- *               
- *   Above approach is wrong bcs
- *   
- *   1 2 3             1 0 3
- *   5 0 7             0 0 7
- *   0 10 11           0 10 11 -> suppose i am at this zero. For above side, there is 
- *                                already zero(by another one) but whole col is not zero
- *                                (it needs to be). So just looking one element above will
- *                                not work. Go full row/col even if above element is 0 already
+    We don't need exact position of zero
+    Any cell would be made zero if its row/col contains at least one zero
+    
+    Store isContains zero for row and col.
+    If contains, make right and down as zero
+    Any cell in the random position will do right and below only
+    bcs above and left would have been taken care while
+    reaching there
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -27,17 +18,15 @@ public class SetMatrixZero {
         int n = matrix.length;
         int m = matrix[0].length;
         
-        int dummy[][] = new int[n][m];
+        boolean row[] = new boolean[n];
+        boolean col[] = new boolean[m];
         
-        // Only for 1d array
-        // Runtime exception for multidimensional
-        //Arrays.fill(dummy, -1);
         
         for(int i=0;i<n;i++)
         { 
             for(int j=0;j<m;j++)
             {
-                dummy[i][j] = -1;
+                
             }
         }
         
@@ -45,40 +34,10 @@ public class SetMatrixZero {
         { 
             for(int j=0;j<m;j++)
             {
-                if(matrix[i][j] == 0)
+                if(matrix[i][j]==0)
                 {
-                    //right side
-                    {
-                        for(int k=j;k<m;k++)
-                        {
-                            dummy[i][k] = 0;
-                        }
-                    }
-                    
-                    //left side
-                    {
-                        for(int k=j;k>=0;k--)
-                        {
-                            dummy[i][k] = 0;
-                        }
-                    }
-                    
-                    //above side
-                    {
-                        for(int k=i;k>=0;k--)
-                        {
-                            dummy[k][j] = 0;
-                        }
-                    }
-                    
-                    //down side
-                    {
-                        for(int k=i;k<n;k++)
-                        {
-                            dummy[k][j] = 0;
-                        }
-                    }
-                    
+                    row[i] = true;
+                    col[j] = true;
                 }
             }
         }
@@ -87,8 +46,25 @@ public class SetMatrixZero {
         { 
             for(int j=0;j<m;j++)
             {
-                if(dummy[i][j] == 0)    matrix[i][j] = dummy[i][j];
+                if(row[i] == true)
+                {
+                    //Right
+                    for(int k=j;k<m;k++)
+                    {
+                        matrix[i][k] = 0;
+                    }
+                }
+                
+                if(col[j] == true)
+                {
+                    //Down
+                    for(int k=i;k<n;k++)
+                    {
+                        matrix[k][j] = 0;
+                    }
+                }
             }
+            
         }
     }
     public static void main(String[] args) {
