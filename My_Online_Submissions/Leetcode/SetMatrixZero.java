@@ -46,25 +46,13 @@ public class SetMatrixZero {
         { 
             for(int j=0;j<m;j++)
             {
-                if(row[i] == true)
+                if(row[i] == true ||
+                   col[j] == true)
                 {
-                    //Right
-                    for(int k=j;k<m;k++)
-                    {
-                        matrix[i][k] = 0;
-                    }
+                    matrix[i][j] = 0;
                 }
-                
-                if(col[j] == true)
-                {
-                    //Down
-                    for(int k=i;k<n;k++)
-                    {
-                        matrix[k][j] = 0;
-                    }
-                }
+   
             }
-            
         }
     }
     public static void main(String[] args) {
