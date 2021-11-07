@@ -39,6 +39,10 @@ public class LongestConsecutiveSequence {
             }
         }
         
+        // This two for loops are also O(n) bcs if suppose we have 5 6 7 8
+        // So inside for loop will run 4 times and outer loop will only run for 5
+        // bcs for other elements if condition is false.
+        // So we can say that sum of all lopps will be n only
         for(int i=0;i<n;i++)
         {
             int key = nums[i];
