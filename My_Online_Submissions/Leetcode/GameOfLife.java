@@ -1,3 +1,11 @@
+/*
+ * 0  -> dead to dead
+ * 1  -> live to live
+ * 2  -> dead to live
+ * 3  -> live to dead
+ * 
+ */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class GameOfLife {
@@ -11,9 +19,6 @@ public class GameOfLife {
         int n = board.length;
         int m = board[0].length;
         
-        int next[][] = new int[n][m];
-        
-        
         for(int i=0;i<n;i++)
         {
             for(int j=0;j<m;j++)
@@ -25,21 +30,31 @@ public class GameOfLife {
                     int new_i = i+vertical_direction[dir];
                     int new_j = j+horizontal_direction[dir];
                     
-                    if(new_i>=0 && new_i<n && new_j>=0 && new_j<m && board[new_i][new_j]==1)
+                    // check original state. 1 and 3 means they were
+                    // originally alive
+                    if(new_i>=0 && new_i<n && new_j>=0 && new_j<m &&
+                       (board[new_i][new_j]==1 || board[new_i][new_j]==3)
+                       )
                         live_counts++;
                 }
                 
-                // Rest of the cases will be handled by default zero values in next
+                // Make cell dead->alive
                 if(board[i][j] == 0 && live_counts==3)
                 {
-                    next[i][j] = 1;
+                    board[i][j] = 2;
                 }
+                // Keep it alive
                 else if(board[i][j] == 1 &&
                         ((live_counts==3) || (live_counts==2))
                         )
                 {
-                    next[i][j] = 1;
+                    // Do nothing
+                    // keep same state
+                    //board[i][j] = 1;
                 }
+                // make live -> dead cell
+                else if(board[i][j] == 1)
+                    board[i][j] = 3;
                     
             }
         }
@@ -48,7 +63,19 @@ public class GameOfLife {
         {
             for(int j=0;j<m;j++)
             {
-                board[i][j] = next[i][j];
+                switch(board[i][j])
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        board[i][j] = 1;
+                        break;
+                    case 3:
+                        board[i][j] = 0;
+                        break; 
+                }
             }
         }
     }
