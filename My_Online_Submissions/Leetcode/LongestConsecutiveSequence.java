@@ -6,6 +6,7 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class LongestConsecutiveSequence {
 
@@ -21,38 +22,24 @@ public class LongestConsecutiveSequence {
         
         int result = 1;
         
-        HashMap<Integer,Boolean> hm = new HashMap<>();
+        HashSet<Integer> hm = new HashSet<>();
         
         // Store all elements
         for(int i=0;i<n;i++)
         {
-            hm.put(nums[i], true);
+            hm.add(nums[i]);
         }
         
-        //Store real start index
-        for(int i=0;i<n;i++)
-        {
-            int key = nums[i];
-            if(hm.containsKey(key-1)==true)
-            {
-                hm.put(key,false);
-            }
-        }
-        
-        // This two for loops are also O(n) bcs if suppose we have 5 6 7 8
-        // So inside for loop will run 4 times and outer loop will only run for 5
-        // bcs for other elements if condition is false.
-        // So we can say that sum of all lopps will be n only
         for(int i=0;i<n;i++)
         {
             int key = nums[i];
             
-            if(hm.get(key)==true)
+            if(hm.contains(key-1)==false)
             {
                 int count = 1;
                 for(int j=key+1;true;j++)
                 {
-                    if(hm.containsKey(j)==false)    break;
+                    if(hm.contains(j)==false)    break;
                     
                     count++;
                 }
