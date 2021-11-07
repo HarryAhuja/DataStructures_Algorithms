@@ -1,9 +1,11 @@
+/*
+ * Iterating over array is costlier than iterating over hashmap
+ * in case of duplicates
+ * 
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class LongestConsecutiveSequence {
 
@@ -37,22 +39,18 @@ public class LongestConsecutiveSequence {
             }
         }
         
-        //Iterate over only starting index
-        Set<Map.Entry<Integer,Boolean>> set = hm.entrySet();
-        Iterator<Map.Entry<Integer,Boolean>> itr = set.iterator();
-        
-        while(itr.hasNext())
+        for(int i=0;i<n;i++)
         {
-            Map.Entry<Integer, Boolean> e = itr.next();
+            int key = nums[i];
             
-            if(e.getValue()==true)
+            if(hm.get(key)==true)
             {
                 int count = 1;
-                int key   = e.getKey();
-                while(hm.containsKey(key+1)==true)
+                for(int j=key+1;true;j++)
                 {
+                    if(hm.containsKey(j)==false)    break;
+                    
                     count++;
-                    key++;
                 }
                 
                 result = max(result,count);
