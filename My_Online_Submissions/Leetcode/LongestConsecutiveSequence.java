@@ -7,6 +7,7 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class LongestConsecutiveSequence {
 
@@ -30,9 +31,11 @@ public class LongestConsecutiveSequence {
             hm.add(nums[i]);
         }
         
-        for(int i=0;i<n;i++)
+        Iterator<Integer> itr = hm.iterator();
+        
+        while(itr.hasNext())
         {
-            int key = nums[i];
+            int key = itr.next();
             
             if(hm.contains(key-1)==false)
             {
@@ -47,6 +50,7 @@ public class LongestConsecutiveSequence {
                 result = max(result,count);
             }
         }
+        
         
         return result;
     }
