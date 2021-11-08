@@ -1,22 +1,26 @@
-/*
- *  Time  = O(k^n)
- */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class LadderDP {
 
     public static int no_of_ways(int n,int k)
     {
-        // either put condition at calling or at this point(after called)
-        if(n<0)     return 0;
-        if(n==0)    return 1;
+        // Ground floor || only single way to take steps
+        if(n==0 || k ==1)   return 1;
         
-        int ans = 0;
-        for(int i=1;i<=k;i++)
+        //Bottom dp
+        int dp[] = new int[n+1];
+        dp[0] = 1;
+        
+        for(int ladder=1;ladder<=n;ladder++)
         {
-            ans += no_of_ways(n-i,k);
+            dp[ladder]  = 0;
+            for(int i=1;i<=k;i++)
+            {
+                if(ladder-i>=0) dp[ladder] = dp[ladder]+dp[ladder-i];
+            }
         }
-        return ans;
+        
+        return dp[n];
     }
     public static void main(String[] args) {
        
