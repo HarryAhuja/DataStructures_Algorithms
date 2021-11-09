@@ -1,31 +1,36 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
-public class LadderDP {
-
+public class LadderDP
+{
+    static int dp[] = new int[100000];
+    public static void init()
+    {
+        for(int i=0;i<100000;i++)   dp[i] = -1;
+    }
+    
     public static int no_of_ways(int n,int k)
     {
-        // Ground floor || only single way to take steps
-        if(n==0 || k ==1)   return 1;
+        // either put condition at calling or at this point(after called)
+        if(n<0)     return 0;
+        if(n==0)    return 1;
         
-        //Bottom dp
-        int dp[] = new int[n+1];
-        dp[0] = 1;
+        if(dp[n] !=-1)  return dp[n];
         
-        for(int ladder=1;ladder<=n;ladder++)
+        int ans = 0;
+        for(int i=1;i<=k;i++)
         {
-            dp[ladder]  = 0;
-            for(int i=1;i<=k;i++)
-            {
-                if(ladder-i>=0) dp[ladder] = dp[ladder]+dp[ladder-i];
-            }
+            ans += no_of_ways(n-i,k);
         }
         
-        return dp[n];
+        dp[n]  = ans;
+        
+        return ans;
     }
     public static void main(String[] args) {
        
         int n = 4, k = 3;
         
+        init();
         System.out.println(no_of_ways(n,k));
 
     }
