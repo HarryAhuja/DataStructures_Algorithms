@@ -26,26 +26,13 @@ public class HouseRob {
     }
     public static int rob_helper(int nums[],int n)
     {
-        if(n<=0)    return 0;
+        dp[0] = 0;
+        dp[1] = nums[0];
         
-        if(dp[n]!=-1)    return dp[n];
-        
-        int inc = 0, exc = 0;
-        
-        // Can't rob i-1 if ith house is robbed
-        
-        // this is very tricky situtation to put n-2>=0 condition here
-        // suppose 2 7 9 3 1
-        // at 1,index=0-> so you want to include this number
-        // but n-2<0 -> this function will not be called
-        // you want to include this number but n-2 means don't want to include
-        // previous number
-        // so putting this condition is restricting condition
-        inc = nums[n-1]+rob_helper(nums,n-2);
-        exc = rob_helper(nums,n-1);
-        
-        
-        dp[n]=max(inc,exc);
+        for(int i=2;i<=n;i++)
+        {
+            dp[i] = max(dp[i-1],nums[i-1]+dp[i-2]);
+        }
         return dp[n];
     }
     public static int rob(int[] nums)
