@@ -1,3 +1,7 @@
+/*
+ * 
+ * Only single unit is available
+ */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class KnapsackDP {
@@ -19,32 +23,35 @@ public class KnapsackDP {
         return a>b?a:b;
     }
     
-    public static int max_profit(int wts[],int prices[],int n,int w)
+    public static int max_profit(int wts[],int prices[],int N,int W)
     {
         // there are no items available
-        if(n==0)    return 0;
+        if(N==0)    return 0;
         // back has no space to fill
-        if(w==0)    return 0;
+        if(W==0)    return 0;
         
-        if(dp[w][n]!=-1)    return dp[w][n];
-        
-        int include = 0, exclude = 1;
-        
-        exclude = max_profit(wts,prices,n-1,w);
-        
-        // this condition is important here. Do make base case w<0 for this bcs
-        // then function will return 0 but prices[n-1]+0, if this is greater than 
-        // exclude then it will be a problem since, condition is saying bag remaining
-        // capacity is less than item price, so don't include item but taking prices[n-1]
-        // means we are taking item. So its wrong
-        // always make base case out of it if only function call is there. No other 
-        // expression is includeded(prices[n-1]) in it
-        if(w-wts[n-1]>=0)   include = prices[n-1]+max_profit(wts,prices,n-1,w-wts[n-1]);
-        
-        dp[w][n] = max(exclude,include); 
-        
-        return dp[w][n];
-    }
+        for(int n=0;n<=N;n++)
+        {
+            for(int w=0;w<=W;w++)
+            {
+                if(w==0 || n==0)
+                {
+                    // base case
+                    dp[n][w] = 0;
+                }
+                else
+                {
+                    if(w-wts[n-1]>=0)
+                        dp[n][w] = max(dp[n-1][w],prices[n-1]+dp[n-1][w-wts[n-1]]);
+                    // this else is necessary
+                    // if current item can't be included then it must be exlucuded
+                    else
+                        dp[n][w] = dp[n-1][w];
+                }
+            }
+        }
+        return dp[N][W];
+    } 
     public static void main(String[] args) {
         
         int wts[] = {2,7,3,4};
