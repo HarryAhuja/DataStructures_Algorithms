@@ -1,7 +1,4 @@
-/*
- * 
- * Only single unit is available
- */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class KnapsackDP {
@@ -42,7 +39,7 @@ public class KnapsackDP {
                 else
                 {
                     if(w-wts[n-1]>=0)
-                        dp[n][w] = max(dp[n-1][w],prices[n-1]+dp[n-1][w-wts[n-1]]);
+                        dp[n][w] = max(dp[n-1][w],prices[n-1]+dp[n][w-wts[n-1]]);
                     // this else is necessary
                     // if current item can't be included then it must be exlucuded
                     else
@@ -54,10 +51,10 @@ public class KnapsackDP {
     } 
     public static void main(String[] args) {
         
-        int wts[] = {2,7,3,4};
-        int prices[] = {5,20,20,10};
+        int wts[] = {2,2,3,1};
+        int prices[] = {5,20,100,30};
         int n = 4;
-        int w = 11;
+        int w = 5;
       
         init();
         System.out.println(max_profit(wts,prices,n,w));
