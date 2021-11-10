@@ -9,49 +9,25 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class PerfectSquares {
     static int dp[] = new int[10007];
-    static boolean first_init;
-    
-    public static void init()
-    {
-        for(int i=0;i<10007;i++)
-        {
-            dp[i] = -1;
-        }
-    }
-    
+   
     public static int min(int a,int b)
     {
         return a<b?a:b;
     }
-
-    public static int numSquaresHelper(int n)
-    {
-        
-        if(n<0)     return Integer.MAX_VALUE;
-        if(n==0)    return 0;
-        
-        if(dp[n]!=-1)   return dp[n];
-        
-        int ans = Integer.MAX_VALUE;
-        
-        for(int i=1;i*i<=n;i++)
-        {
-            ans = min(ans,numSquaresHelper(n-(i*i))+1);
-        }
-        dp[n]  = ans;
-        
-        return ans;
-        
-    }
     public static int numSquares(int n)
     {
-        if(first_init==false)
+        
+        dp[0] = 0;
+        for(int i=1;i<=n;i++)
         {
-            init();
-            first_init=true;
+            dp[i] = Integer.MAX_VALUE;
+            
+            for(int j=1;j*j<=n;j++)
+            {
+                if(i-j*j>=0)    dp[i] = min(dp[i],dp[i-j*j]+1);
+            }
         }
-        int ans =  numSquaresHelper(n);
-        return (ans==Integer.MAX_VALUE?-1:ans);
+        return dp[n];
     }
 
     public static void main(String[] args)
