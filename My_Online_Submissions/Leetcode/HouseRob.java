@@ -13,31 +13,28 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class HouseRob {
 
-    static int dp[] = new int[101];
-    
-    public static void init()
-    {
-        for(int i=0;i<101;i++) dp[i] = -1;
-    }
-    
     public static int max(int a,int b)
     {
         return a>b?a:b;
     }
     public static int rob_helper(int nums[],int n)
     {
-        dp[0] = 0;
-        dp[1] = nums[0];
-        
+        int b = 0;
+        int a = nums[0];
+        // in case n<2
+        int c = a;
         for(int i=2;i<=n;i++)
         {
-            dp[i] = max(dp[i-1],nums[i-1]+dp[i-2]);
+            c = max(a,nums[i-1]+b);
+            b = a;
+            a = c;
+            
         }
-        return dp[n];
+        return c;
     }
     public static int rob(int[] nums)
     {
-        init();
+        
         return rob_helper(nums,nums.length);
     }
     public static void main(String[] args) {
