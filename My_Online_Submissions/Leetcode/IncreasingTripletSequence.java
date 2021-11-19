@@ -23,7 +23,19 @@ public class IncreasingTripletSequence {
     public static void main(String[] args) {
         
         //int inp[]= {2,1,5,0,4,6};
-        int inp[]= {1,1,1,2};
+        
+        /*
+         * In this example, small=2, big=7
+         * at value 5, since it will hit 5<=big -> it means that
+         * 2<5<7. 5 is in between both values otherwise
+         * if 5 is on left side, first condition hit
+         * if 5 is on right side of 7, then 2nd condition doesn't hit
+         * bcs its in bw 2 and 7, 5 can be considered as big
+         * bcs choosing less big value increases chance of finding bigger number 
+         * at its right--> Greedy solution
+         */
+        
+        int inp[]= {2,7,5,1,8};
         
         System.out.println(increasingTriplet(inp));
 
