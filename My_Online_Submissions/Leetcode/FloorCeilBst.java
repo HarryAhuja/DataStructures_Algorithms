@@ -51,6 +51,33 @@ public class FloorCeilBst {
     {
         return ceil_helper(root,i,-1);
     }
+    
+    public static int floor_helper(TreeNode root, int key,int anc)
+    {
+        if(root==null)      return -1;
+        
+        if(root.val==key)   return key;
+        
+        if(key<root.val)
+        {
+            int left_ans = floor_helper(root.left,key,anc);
+            
+            if(left_ans==-1)    return anc;
+            else                return left_ans;
+            
+        }
+        else
+        {
+            int right_ans = floor_helper(root.right,key,root.val);
+            
+            if(right_ans == -1) return root.val;
+            else                return right_ans;
+        }
+    }
+    public static int floor(TreeNode root, int i)
+    {
+        return floor_helper(root,i,-1);
+    }
     public static void main(String[] args) {
         TreeNode root   = new TreeNode(8);
         root.left        = new TreeNode(4); 
@@ -63,6 +90,11 @@ public class FloorCeilBst {
         for (int i = 0; i < 16; i++)
         {
             System.out.println("Ceil of i "+i+" is "+ceil(root,i));
+        }
+        
+        for (int i = 0; i < 16; i++)
+        {
+            System.out.println("floor of i "+i+" is "+floor(root,i));
         }
         
     }
