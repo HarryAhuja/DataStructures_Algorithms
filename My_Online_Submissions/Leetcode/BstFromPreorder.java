@@ -18,7 +18,7 @@ public class BstFromPreorder {
         
         if(index>=n || preorder[index]<min || preorder[index]>max)    return null;
         
-        int value = preorder[index];
+        int value = preorder[index++];
         TreeNode root = new TreeNode(value);
         
         root.left  = bstFromPreorderHelper(preorder,n,min,value-1);
