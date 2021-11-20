@@ -36,6 +36,14 @@
  *  multiplication is assigned to a long, it may have already overflowed before the assignment.
  *  In either case, the result will not be what was expected. Instead, at least one operand 
  *  should be cast or promoted to the final type before the operation takes place.
+ *  
+ *  
+ *  1st submission
+ *  passing to right only changes the max value.
+ *  Min value seen so far is retained as it is so that any node in any subtree
+ *  in right of root(original root) should be greater than min value so far
+ *  
+ *  Same with left
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
@@ -69,12 +77,27 @@ public class isValidBst {
         left = isValidBSTHelper(root.left,m);
         right= isValidBSTHelper(root.right,m);
         
+        /*
+         * There are can diff max,min from left and right but we are only
+         * concerned for max from left and min from right
+         *  
+         * max from left  = 7
+         * min from right = 3
+         *           (0,7) 4  (3,6)
+         *       1                 5
+         *  0       7         3          6
+         * 
+         */
         if(root.val<=left.max || root.val>=right.min)
         {
             ans.is_bst = false;
             return ans;
         }
         
+        // if this line hits that means all values in left of root are lesser and 
+        // right values are greater
+        // Therefore max is taken from right and min is taken from left to
+        // track max and min seen so far
         ans.max = max(right.max,root.val);
         ans.min = min(left.min,root.val);
         
@@ -84,8 +107,8 @@ public class isValidBst {
     public static boolean isValidBST(TreeNode root) {
         
         MIN_MAX m = new MIN_MAX();
-        m.min = Integer.MAX_VALUE+1L;
-        m.max = Integer.MIN_VALUE-1L;
+        m.min = Integer.MAX_VALUE+1L;   // autounboxing from Integer to long is not possible
+        m.max = Integer.MIN_VALUE-1L;   // Convert first Integer to Long then into long
         m.is_bst = true;
         
         MIN_MAX res = isValidBSTHelper(root,m);
