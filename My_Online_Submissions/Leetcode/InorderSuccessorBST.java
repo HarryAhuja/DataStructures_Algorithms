@@ -1,5 +1,5 @@
 /*
- * if right subftree is not null
+ * if right subftree is null then these cases
  * 
  * if target node is in left sbt, then it means parent is not visited
  * in inorder. Then parent is ans as it will be visited next
