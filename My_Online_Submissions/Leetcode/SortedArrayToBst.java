@@ -1,3 +1,24 @@
+/*
+ *      0
+ *   -3   9
+ * -10   5
+ * 
+ *  0   1  2 3 4
+ * -10 -3  0 5 9
+ *                     
+ * in left subtree, -10,-3 mid comes out to be 0. So 10 becomes the root and tree
+ * becomes something like this(also height balanced). But we know that case1 can also
+ * be possible. This is happening bcs we are not given full input with null
+ * 
+ * -10 -3 null 0 5 9 null
+ * 
+ * This input will be converted to case1 completely
+ * 
+ *          0
+ *     -10
+ *        -3     
+ */
+
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class SortedArrayToBst {
