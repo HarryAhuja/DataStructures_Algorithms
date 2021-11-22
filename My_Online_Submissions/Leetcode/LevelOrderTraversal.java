@@ -16,6 +16,13 @@ public class LevelOrderTraversal {
     {
         if(root == null)    return;
         
+        // Height starts from 0
+        // l.size will be increased after we add new list
+        // So any node on one particular level when first hit, height==l.size
+        // Ex, for level 3(index=2) first node, height=2
+        // and l.size=2(meaning that first 2 levels are already hit)-> we will add new
+        // list for this level. Then l.size==3 and height==2-> that means for level3
+        // l.size()==rows in 2d/no of levels, list has already been made
         if(height==l.size())
         {
             l.add(new LinkedList<Integer>());
@@ -38,9 +45,9 @@ public class LevelOrderTraversal {
     {
         TreeNode root         = new TreeNode(3);
         root.left             = new TreeNode(9);
-        root.right            = new TreeNode(10);
-        root.right.left       = new TreeNode(15);
+        root.right            = new TreeNode(20);
         root.right.right      = new TreeNode(7);
         List<List<Integer>> l = levelOrder(root);
+        System.out.println(l);
     }
 }
