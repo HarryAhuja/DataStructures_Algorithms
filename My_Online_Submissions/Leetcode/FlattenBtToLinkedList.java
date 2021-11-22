@@ -2,36 +2,19 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class FlattenBtToLinkedList
 {
-    static TreeNode tail = null;
-    static TreeNode new_root;
-    
-    public static TreeNode flatten_helper(TreeNode root)
-    {
-        if(root==null)  return null;
-        
-        if(tail==null)
-        {
-            tail = new TreeNode(root.val);
-            new_root = tail;
-        }
-        else
-        {
-            tail = new TreeNode(root.val);
-        }
-        
-        
-    }
+    static TreeNode prev_node_done = null;
     public static void flatten(TreeNode root)
     {
-        if(root==null)
-        {
-            root=null;
-            return;
-        }
-        
-        flatten_helper(root);
-        
-        root = new_root;
+       if(root==null)   return;
+       
+       flatten(root.right);
+       flatten(root.left);
+       
+       root.right = prev_node_done;
+       root.left  = null;
+       
+       prev_node_done = root;
+       
     }
     
     public static void main(String arg[])
