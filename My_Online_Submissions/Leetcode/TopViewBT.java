@@ -15,13 +15,13 @@ class TopViewNode
     
     public TopViewNode()
     {
-        value = null;
+        node = null;
         hor_distance = 0;
     }
     
     public TopViewNode(TreeNode v,int h)
     {
-        value = v;
+        node = v;
         hor_distance = h;
     }
 }
