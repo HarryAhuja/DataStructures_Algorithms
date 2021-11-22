@@ -16,7 +16,7 @@ public class LevelOrderTraversal {
     {
         if(root == null)    return;
         
-        if(height>=l.size())
+        if(height==l.size())
         {
             l.add(new LinkedList<Integer>());
         }
