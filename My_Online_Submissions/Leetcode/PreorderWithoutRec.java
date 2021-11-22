@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class PreorderWithoutRec {
     
-    public static List<Integer> iterative_preorder(TreeNode root)
+    public static List<Integer> iterative_postorder(TreeNode root)
     {
         Stack<TreeNode> stack = new Stack<TreeNode>();
         List<Integer> l = new ArrayList<Integer>();
@@ -40,7 +40,7 @@ public class PreorderWithoutRec {
         tree.left.left = new TreeNode(3);
         tree.left.right = new TreeNode(5);
         tree.right.left = new TreeNode(2);
-        System.out.println(iterative_preorder(tree));
+        System.out.println(iterative_postorder(tree));
 
     }
 
