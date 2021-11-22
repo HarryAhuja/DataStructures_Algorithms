@@ -1,29 +1,36 @@
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class PreorderWithoutRec {
     
-    public static void iterative_preorder(TreeNode root)
+    public static List<Integer> iterative_preorder(TreeNode root)
     {
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        
+        List<Integer> l = new ArrayList<Integer>();
         while(true)
         {
             if(root!=null)
             {
-                System.out.println(root.val);
+                l.add(0,root.val);
                 stack.push(root);
-                root = root.left;
+                // Push right first bcs we are adding from back end
+                // postorder =  L->R->root
+                // if adding in list from back, then root->R->L
+                root = root.right;
             }
             else
             {
                 if(stack.isEmpty()==true)   break;
                 
                 root = stack.pop();
-                root = root.right;
+                root = root.left;
             }
         }
+        
+        return l;
     }
     public static void main(String[] args) {
         TreeNode tree = new TreeNode();
@@ -33,7 +40,7 @@ public class PreorderWithoutRec {
         tree.left.left = new TreeNode(3);
         tree.left.right = new TreeNode(5);
         tree.right.left = new TreeNode(2);
-        iterative_preorder(tree);
+        System.out.println(iterative_preorder(tree));
 
     }
 
