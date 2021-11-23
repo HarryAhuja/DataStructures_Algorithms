@@ -1,73 +1,102 @@
 /*
- *  Same letter can't be used in same word multiple time
- *  but same letter can be used in two different words
+ * Problem
+ *  matrix : a b
+ *  word = "ab"
  *  
- *  index should be local not global
- *  
- *  Ex
- *      (at this a) , when false comes from right bcs h is not there after t, then
- *      index should come back to t to search downwards. It should not retain on h
- *      
- *  o   a   t   n   
- *  e   t   a   e
- *  i   h   k   r
- *  
- *  word = oath
- *  
- *  Two problems in this approach
- *  1.) once one word is found, we have to flag it done and don't search for in another cells
- *     Bcs word.length can be 10^4. So tc would increase
- *  2.) if any word is found then it will return true and will not set back original char
- *      in input matrix(no backtracking, return true earlier)
- *      So while finding next word, input is changed-> Solution: use copy matrix
+ *          root      j = 0       
+ *       a            j = 1
+ *     b -> word=ab   j =2         
+ *   
+ *   if j<=m is checked at first line then it will return and word checking condition
+ *   will never hit
+ *   
+ *   so do something like this
+ *   
+ *  j=0         a
+ *  j=1         b
+ * 
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordSeachII {
-   
-    public static void copy(char board[][], char copy[][],int rows,int cols)
-    {
-        for(int i=0;i<rows;i++)
-        {
-            for(int j=0;j<cols;j++)
-            {
-                copy[i][j] = board[i][j];
-            }
-        }
-    }
-    public static boolean is_word_exist(char[][] board, String word,int i,int j,int index)
-    {
-        if(index == word.length())  return true;
-        
-        if(i<0 || i>=board.length || j<0 || j>=board[0].length) return false;
-        
+class TrieNode
+{
+    TrieNode next[] = new TrieNode[26];
+    String word;
+}
 
-        if(word.charAt(index)!=board[i][j]) return false;
+public class WordSeachII
+{   
+    public static TrieNode build_trie(String words[])
+    {
+        TrieNode root = new TrieNode();
+        
+        for(int i=0;i<words.length;i++)
+        {
+            TrieNode iter = root;
+            String word = words[i];
+            
+            for(int j=0;j<words[i].length();j++)
+            {
+                int    c    = word.charAt(j)-'a';
+                if(iter.next[c]==null)
+                {
+                    iter.next[c] = new TrieNode();
+                }
+                iter = iter.next[c];
+            }
+            iter.word = word;
+        }
+        return root;
+    }
+    public static void is_word_exist(char[][] board,int i,int j,TrieNode root,List<String> res)
+    {
+        if(i<0 || i>=board.length || j<0 || j>=board[0].length) return ;
+        
+        char temp = board[i][j];
+        int c = temp-'a';
+        
+        if(temp=='*' || root.next[c]==null) return;
+        
+        root = root.next[c];    // solution to above problem
+        
+        if(root.word!=null)
+        {
+            res.add(root.word);
+            // make it null bcs TC = "oath","oathify" but having different starting cells
+            // when it crosses oath from the starting cell of oathify, if not make null,
+            //will add oath to list again
+            root.word = null;
+           
+           // here no return statement should be there bcs
+           // TC = "oath","oathify"
+           // after checking for oath, it should go to oathify also bcs same prefix is there
+           // in trie approach, we don't again iterate over another words. So if we dont iterate
+           // over oathify now, it will be skipped
+        }
         
         // mark cell visited for current word
         board[i][j] = '*';
         
         // right
-        if(is_word_exist(board,word,i,j+1,index+1)==true)   return true;
+        is_word_exist(board,i,j+1,root,res);
         
         //down 
-        if(is_word_exist(board,word,i+1,j,index+1)==true)   return true;
+        is_word_exist(board,i+1,j,root,res);
         
         //left
-        if(is_word_exist(board,word,i,j-1,index+1)==true)   return true;
+        is_word_exist(board,i,j-1,root,res);
         
         //up
-        if(is_word_exist(board,word,i-1,j,index+1)==true)   return true;
+        is_word_exist(board,i-1,j,root,res);
         
         
         // backtrack so that cell can be marked unvisited for next word(one letter can
         // be used multiple times or iteration in same word
-        board[i][j] = word.charAt(index);
+        board[i][j] = temp;
         
-        return false;
     }
     public static List<String> findWords(char[][] board, String[] words)
     {
@@ -75,32 +104,13 @@ public class WordSeachII {
         int rows = board.length;
         int cols = board[0].length;
         
-        char[][] board_copy = new char[rows][cols];
-        copy(board,board_copy,rows,cols);
-        
-        int n = words.length;
-        
+        TrieNode root = build_trie(words);
+       
         for(int i=0;i<rows;i++)
         {
             for(int j=0;j<cols;j++)
             {
-                for(int w=0;w<n;w++)
-                {
-                    if(board[i][j] == words[w].charAt(0))
-                    {
-                        
-                        boolean ans = is_word_exist(board_copy,words[w],i,j,0);
-                        if(ans==true)
-                        {
-                            // don't break here
-                            // multiple words can start from same start letter
-                            // But once one word is found, no need to search again at other
-                            // cells
-                            copy(board,board_copy,rows,cols);
-                            res.add(words[w]);
-                        }
-                    }
-                }
+                is_word_exist(board,i,j,root,res);
             }
             
         }
@@ -108,9 +118,8 @@ public class WordSeachII {
         return res;
     }
     public static void main(String[] args) {
-        char board[][] = {{'o','a','a','n'},{'e','t','a','e'},{'i','h','k','r'},
-                          {'i','f','l','v'}};
-        String words[] = {"oath","pea","eat","rain"};
+        char board[][] = {{'a','b'}};
+        String words[] = {"ab"};
         
         System.out.println(findWords(board,words));
 
