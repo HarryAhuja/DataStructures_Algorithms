@@ -42,16 +42,24 @@ public class KthSmallestSortedMatrix {
         Run for minimum of rows and k bcs
         1.) consider ans is in col=0 and rows, then kth element
             would be among first k elements
-        2.) if col>0, then ans would be in <k rows
+        2.) if col>0, then ans would be in <k rows(like if we have k=2 and 3 rows and 4 cols)
+            then ans would be in first 2 smallest numbers. And that can lie somewhere 
+            in first 2 rows
         3.) Conclusion, you don't need to add elements>k*cols to find kth element
             It it will always within k*cols where min value of cols=1
+            
+            1   4   7
+            2   5   8
+            3   6   9
+            if k==3, then in worst case , it will be third row. In avg case,
+            it can be somewhere in 1st or 2nd row
         */
         for(int i=0;i<Math.min(rows, k);i++)
         {   
             pq.offer(new int[] {mat[i][0],i,0});
         }
         
-        // iterate over k times
+        // iterate over k-1 times. One element is already there
         for(int i=1;i<k;i++)
         {
             int top[] = pq.poll();
@@ -61,6 +69,10 @@ public class KthSmallestSortedMatrix {
             // if cols of particular row is exhaused, that
             // means all elements in that row are checked, no need
             // to check that row further
+            // at exhausted, we are not putting in queue
+            // that means one value of i will be incremented without offer anything
+            // it is correct, since in this i value last element will be popped and next
+            // bigger would come. It also needs one iteration to come on top
             if(c+1<cols)   
             {
                 pq.offer(new int[] {mat[r][c+1],r,c+1});
