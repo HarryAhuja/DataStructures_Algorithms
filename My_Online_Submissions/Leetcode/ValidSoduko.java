@@ -58,9 +58,9 @@ public class ValidSoduko
         
         for(int r=0;r<max_rows;r++)
         {
-            row_set.clear();
-            col_set.clear();
-            box_set.clear();
+            row_set.clear();    // for each row, check independently
+            col_set.clear();    // for each col, check independently
+            box_set.clear();    // for each sub block, check independently
             
             // Box set is also cleared here bcs r represents index of sub block
             // from 0 to 8. So at each new sub_box, its cleared
