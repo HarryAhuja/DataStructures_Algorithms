@@ -23,8 +23,18 @@
  * to reuse the cells again, use circular queue
  * 
  * full queue will be when front+1==rear
- * this is applicable when front==0 and rear==capacity-1
+ * this is applicable also when front==0 and rear==capacity-1
  * 
+ * Suppose all elements are filled
+ *          front   rear
+ * 0    1   2       3   4   5   6   7   
+ * 
+ * front                        rear
+ * 0    1   2   3   4   5   6   7   
+ * 
+ * 
+ * next position = (i+1)%N
+ * prev position = (i+N-1)%N  ( add N to make inside expression always positive)
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -44,6 +54,8 @@ public class QueueUsingDS {
     
     public static boolean isEmpty()
     {
+        // This defination remains same for circular queue
+        
         // representing front and rear at -1 as empty
         if(front==-1 && rear==-1)   return true;
         else                        return false;
@@ -51,7 +63,7 @@ public class QueueUsingDS {
     
     public static boolean isFull()
     {
-        return (rear==(capacity-1));
+        return (((rear+1)%capacity) == front);
     }
     
     public void enqueue(int x)
@@ -63,7 +75,7 @@ public class QueueUsingDS {
         }
         else
         {
-            rear++;
+            rear = (rear+1)%capacity;
         }
         
         queue[rear] = x;
@@ -74,7 +86,7 @@ public class QueueUsingDS {
         if(isEmpty())   return -1;
         else if(front==rear)
         {
-            // Only single element in queue
+            // Only single element in queue(front==rear==0 and front==rear)
             // -1 condition already checked in isEmpty
             // dequeue will make queue empty
             int element = queue[front];
@@ -83,10 +95,17 @@ public class QueueUsingDS {
         }
         else
         {
-            front++;
-            return queue[front-1];
+            int element = queue[front];
+            front = (front+1)%capacity;
+            return element;
         }
         
+    }
+    
+    public static int front()
+    {
+        if(isEmpty()==true) return -1;
+        return queue[front];
     }
     public static void main(String[] args) {
         // TODO Auto-generated method stub
