@@ -22,6 +22,9 @@
  * 
  * to reuse the cells again, use circular queue
  * 
+ * full queue will be when front+1==rear
+ * this is applicable when front==0 and rear==capacity-1
+ * 
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -48,7 +51,7 @@ public class QueueUsingDS {
     
     public static boolean isFull()
     {
-        return (rear==capacity);
+        return (rear==(capacity-1));
     }
     
     public void enqueue(int x)
