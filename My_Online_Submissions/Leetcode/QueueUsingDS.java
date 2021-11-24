@@ -1,111 +1,92 @@
 /*
- * Its a Abstract DS in which services are provided
- * enqueue, deque, front, isEmpty-> O(1)
- * Insertion and deletion at opposite ends
- * First in first out(FIFO)
+ * Problems with array
  * 
- * Assuming rear on right and front at left
+ * 1.) if capacity is very large and filled cells are less(sparsely filled) then memory wastage
+ * 2.) if queue is full and we want to insert element then we have to make new big array and copy
+ *     all elements in O(n)
+ *     
+ *     
+ * All apis should be of constant time : Major requirement
  * 
- *          front           rear
- * 0    1   2   3   4   5   6   7   8   
+ * Assuming (can be opposite)
+ * enqueue: head of LL
+ * dequeue: tail of LL
  * 
- * Actual queue is from [front,rear]
- * rest of elements are free to expand the queue 
+ * if i do so, dequeue will be in O(n)bcs we need parent pointer(or DLL) to go backwards
+ * to update front
  * 
- * Enqueue: put at rear and increment
- * Dequeue: just increment front pointer(old values treated as garbage) doesn't matter
- * as it will not be part of queue now
+ * Now if do like this
+ * enqueue: tail of LL
+ * dequeue: head of LL
  * 
- * For empty queue, front=rear=-1
+ * Now both will be by O(1) by global tail pointer. Difference is here we need to go
+ * forward after inserting not backwards. So no parent pointer is needed
  * 
- * This approach has wastage of memory cells
+ * How to check isFull of LL implementation
  * 
- * to reuse the cells again, use circular queue
- * 
- * full queue will be when front+1==rear
- * this is applicable also when front==0 and rear==capacity-1
- * 
- * Suppose all elements are filled
- *          front   rear
- * 0    1   2       3   4   5   6   7   
- * 
- * front                        rear
- * 0    1   2   3   4   5   6   7   
- * 
- * 
- * next position = (i+1)%N
- * prev position = (i+N-1)%N  ( add N to make inside expression always positive)
+ * while enqueue if new operator returns null?
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class QueueUsingDS {
 
-    private static int rear,front, capacity;
-    private static int queue[];
+    private static LinkedListNode rear,front;
+    private static int capacity;
     
-    public QueueUsingDS(int c)
+    public QueueUsingDS()
     {
-        capacity = c;
-        queue    = new int[c];
-        rear     = -1;
-        front    = -1;
+        rear     = null;
+        front    = null;
     }
     
     public static boolean isEmpty()
     {
-        // This defination remains same for circular queue
-        
-        // representing front and rear at -1 as empty
-        if(front==-1 && rear==-1)   return true;
+        // representing front and rear at null as empty
+        if(front==null && rear==null)   return true;
         else                        return false;
-    }
-    
-    public static boolean isFull()
-    {
-        return (((rear+1)%capacity) == front);
     }
     
     public void enqueue(int x)
     {
-        if(isFull()==true)  return;
-        else if(isEmpty()==true)
+        LinkedListNode new_node = new LinkedListNode(x);
+        
+        if(isEmpty())
         {
-            front = rear = 0;
+            rear = front = new_node;
         }
         else
         {
-            rear = (rear+1)%capacity;
+            rear.next = new_node;
+            rear = new_node;
         }
         
-        queue[rear] = x;
     }
     
     public static int deque()
     {
-        if(isEmpty())   return -1;
+        if(isEmpty()==true) return -1;
         else if(front==rear)
         {
-            // Only single element in queue(front==rear==0 and front==rear)
-            // -1 condition already checked in isEmpty
-            // dequeue will make queue empty
-            int element = queue[front];
-            front = rear = -1;
+            // Single element
+            // make queue empty after this pop
+            int element = front.val;
+            front = rear = null;
             return element;
         }
         else
         {
-            int element = queue[front];
-            front = (front+1)%capacity;
+            int element = front.val;
+            front = front.next;
             return element;
+            // popped element should be eligible for GC otherwise memory wastage
         }
-        
     }
     
     public static int front()
     {
         if(isEmpty()==true) return -1;
-        return queue[front];
+        return front.val;
     }
     public static void main(String[] args) {
         // TODO Auto-generated method stub
