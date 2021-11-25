@@ -67,13 +67,7 @@ public class LongestSubstringWithoutRepeat {
         {
             if(map.containsKey(s.charAt(i))==true)
             {
-                int end = map.get(s.charAt(i));
-                for(int j=start;j<=end;j++)
-                {
-                    map.remove(s.charAt(j));
-                }
-                
-                start = end+1;
+                start = Math.max(start,map.get(s.charAt(i))+1);
             }
             
             map.put(s.charAt(i), i);
