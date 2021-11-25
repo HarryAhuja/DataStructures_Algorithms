@@ -1,92 +1,82 @@
 /*
- * Problems with array
  * 
- * 1.) if capacity is very large and filled cells are less(sparsely filled) then memory wastage
- * 2.) if queue is full and we want to insert element then we have to make new big array and copy
- *     all elements in O(n)
- *     
- *     
- * All apis should be of constant time : Major requirement
+ *  4       
+ *  3
+ *  2
+ *  5
  * 
- * Assuming (can be opposite)
- * enqueue: head of LL
- * dequeue: tail of LL
+ * s1       s2
  * 
- * if i do so, dequeue will be in O(n)bcs we need parent pointer(or DLL) to go backwards
- * to update front
+ * push(6)
  * 
- * Now if do like this
- * enqueue: tail of LL
- * dequeue: head of LL
+ * 4    3   2   5   (6)
  * 
- * Now both will be by O(1) by global tail pointer. Difference is here we need to go
- * forward after inserting not backwards. So no parent pointer is needed
+ * 1.) 4 should be on top of stack at last so that pop can happen it at first
+ * 2.) x(6) should be at last of stack bcs its last pushed
+ * 3.) to do this, first shift all elements of s1 to s2
  * 
- * How to check isFull of LL implementation
+ *        5
+ *        2
+ *        3
+ * 6      4
+ * s1     s2
  * 
- * while enqueue if new operator returns null?
+ * 4.) now push x to s1(to meet 2nd point)
+ * 5.) now 4 should be on top(first element enqueued) for front operation
+ *     move all s2 elements back to s1
+ * 
  */
 
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
+import java.util.Stack;
+
 public class QueueUsingDS {
 
-    private static LinkedListNode rear,front;
-    private static int capacity;
+    static Stack<Integer> s1;      // Assume this will contain elements
+    static Stack<Integer> s2;      // just dummy stack for shifting
     
     public QueueUsingDS()
     {
-        rear     = null;
-        front    = null;
+        s1 = new Stack<Integer>();
+        s2 = new Stack<Integer>();
     }
     
     public static boolean isEmpty()
     {
-        // representing front and rear at null as empty
-        if(front==null && rear==null)   return true;
-        else                        return false;
+        return s1.isEmpty();
     }
     
     public void enqueue(int x)
     {
-        LinkedListNode new_node = new LinkedListNode(x);
+        /*
+         * s1->s2
+         * x->s1
+         * s2->s1  
+         */
         
-        if(isEmpty())
+        while(s1.isEmpty()==false)
         {
-            rear = front = new_node;
+            s2.push(s1.pop());
         }
-        else
-        {
-            rear.next = new_node;
-            rear = new_node;
-        }
+        s1.push(x);
         
+        while(s2.isEmpty()==false)
+        {
+            s1.push(s2.pop());
+        }
     }
     
     public static int deque()
     {
-        if(isEmpty()==true) return -1;
-        else if(front==rear)
-        {
-            // Single element
-            // make queue empty after this pop
-            int element = front.val;
-            front = rear = null;
-            return element;
-        }
-        else
-        {
-            int element = front.val;
-            front = front.next;
-            return element;
-            // popped element should be eligible for GC otherwise memory wastage
-        }
+        if(s1.isEmpty())    return -1;
+        else                return s1.pop();
     }
     
     public static int front()
     {
-        if(isEmpty()==true) return -1;
-        return front.val;
+        if(s1.isEmpty())    return -1;
+        else                return s1.peek();
     }
     public static void main(String[] args) {
         // TODO Auto-generated method stub
