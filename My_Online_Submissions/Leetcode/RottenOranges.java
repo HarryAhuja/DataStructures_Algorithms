@@ -80,7 +80,7 @@ public class RottenOranges {
         
         if(m==0 && n==0)    return -1;
         
-        boolean visited[][] = new boolean[m][n];
+        
         Queue<MatrixNode> q = new ArrayDeque<MatrixNode>();
         
         int fresh_oranges = 0;
@@ -95,7 +95,6 @@ public class RottenOranges {
             
         }
         
-        // if no fresh oranges, then no minute takes to rotten it
         if(fresh_oranges==0)    return 0;
        
         int ans = 0;
@@ -112,34 +111,34 @@ public class RottenOranges {
                 MatrixNode front = q.poll();
                  
                 // right side
-                if(front.y+1<n && visited[front.x][front.y+1]==false && grid[front.x][front.y+1]==1)
+                if(front.y+1<n  && grid[front.x][front.y+1]==1)
                 {
                     q.add(new MatrixNode(front.x,front.y+1));
-                    visited[front.x][front.y+1] = true;
+                    grid[front.x][front.y+1] = 2;
                     fresh_oranges--;
                 }
                 
                 // down side
-                if(front.x+1<m && visited[front.x+1][front.y]==false &&  grid[front.x+1][front.y]==1)
+                if(front.x+1<m &&  grid[front.x+1][front.y]==1)
                 {
                     q.add(new MatrixNode(front.x+1,front.y));
-                    visited[front.x+1][front.y] = true;
+                    grid[front.x+1][front.y] = 2;
                     fresh_oranges--;
                 }
                 
                 // left side
-                if(front.y-1>=0 && visited[front.x][front.y-1]==false && grid[front.x][front.y-1]==1)
+                if(front.y-1>=0  && grid[front.x][front.y-1]==1)
                 {
                     q.add(new MatrixNode(front.x,front.y-1));
-                    visited[front.x][front.y-1] = true;
+                    grid[front.x][front.y-1] = 2;
                     fresh_oranges--;
                 }
                 
                 // above side
-                if(front.x-1>=0 && visited[front.x-1][front.y]==false && grid[front.x-1][front.y]==1)
+                if(front.x-1>=0  && grid[front.x-1][front.y]==1)
                 {
                     q.add(new MatrixNode(front.x-1,front.y));
-                    visited[front.x-1][front.y] = true;
+                    grid[front.x-1][front.y] = 2;
                     fresh_oranges--;
                 }
             }
