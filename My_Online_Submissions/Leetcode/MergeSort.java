@@ -13,6 +13,27 @@ public class MergeSort {
         int n1  =   mid-l+1;
         int n2  =   r-mid;
         
+        /*
+         * Why do we need extra space
+         * 1    5   9   10          2   3   4   7
+         * 
+         * Suppose this is original array(sub ranges sorted)
+         * when i=1 and j=0
+         * k =  1
+         * 
+         * as 2<5, will replace 5 and 5 will replace 2
+         * 
+         * 1    2   9   10          5   3   4   7
+         * i = 1, j=1
+         * k = 2
+         * but this has disturbed the property of sorted sub ranges
+         * and now 5 should be compared again with 9 but we have incremented the index
+         * of j to 3
+         * 
+         * So main property while merging using 2 pointer that, those two arrays should
+         * not change. So we need extra space
+         */
+        
         int left_arr[]  = new int[n1];   //elements from index=0 to mid
         int right_arr[] = new int[n2];  // elements from index=mid+1 to r
        
