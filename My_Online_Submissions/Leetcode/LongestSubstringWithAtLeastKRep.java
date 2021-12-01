@@ -13,13 +13,40 @@
  * This implies that for every breakpoint,
  * individual hashmaps are neccesary not complete
  * 
+ * ababacd
+ * it says that a can be included in any substring but can we include it
+ * in "a"b
+ * No, bcs this substring as only one occurrence of a not >=k
+ * 
+ * 2nd approach
+ * 
+ * ------------b------------
+ * <---s1-----> <----s2---->
+ * 
+ * Suppose in full string(s), b is the breakpoint only
+ * and somehow we have starting and ending limits of s1 and s2
+ * Get longest substring from s1 by recursion
+ * Get longest substring from s2 by recursion
+ * take max
+ * 
+ * problem in 1st approach will be solved automatically bcs asking can we include "a" in that
+ * substring will return no from recursion
+ * 
+ * So at each call, we have to do
+ * 1.) find freq of each char
+ * 2.) find breakpoints
+ * 3.) find limits of s1 and s2
+ * 4.) do recursion
+ * 
+ *  In recursion, either you can use substring or use start and end limits
+ *  Avoid substring
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 import java.util.HashMap;
 
 public class LongestSubstringWithAtLeastKRep {
-    
+    static 
     static public int longestSubstring(String s, int k)
     {
         int n = s.length();
@@ -35,55 +62,33 @@ public class LongestSubstringWithAtLeastKRep {
             freq[s.charAt(i)-'a']++;
         }
         
-        int i=0;
-        int start = 0;
-        int end   = 0;
-        
-        while(i<n)
+        int i = 0;
+        while(i<n && (freq[s.charAt(i)-'a']<k))
         {
-            
-            while(i<n && (freq[s.charAt(i)-'a']<k))
-            {
-                i++;
-            }
-            
-            /*
-             * abcd
-             * in this case start = n
-             * end = 0 or some value<n
-             * max = Math.max(0/positive value, end-start(negative)) = 0/positive value 
-             */
-            start = i;
-            //i is at starting position
-            
-            if(i==n)    break;
-            
-            
-            
-            while(i<n && (freq[s.charAt(i)-'a']>=k))
-            {
-                i++;
-            }
-            
-            
-            /*
-             * Before break, assign i to end
-             * "aaabbb"-> i will become n
-             * end = n, start=something-> calculate max after breaking from while
-             * put max check after two while also-> this is the tc
-             */
-            // i is at ending position
-            end = i;
-            
-            if(i==n)    break;
-            
-            
-            
-            max = Math.max(max, end-start);
+            i++;
         }
+
+        // no character has >=k
+        //"abcd"
+        if(i==n)    return 0;
+        
+        
+        
+        while(i<n && (freq[s.charAt(i)-'a']>=k))
+        {
+            i++;
+        }
+        
+        
+        /
+        end = i;
+        
+        if(i==n)    break;
+        
         max = Math.max(max, end-start);
         
-        return max;
+        
+        
     }
     public static void main(String[] a)
     {
