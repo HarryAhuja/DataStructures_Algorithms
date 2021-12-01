@@ -2,8 +2,35 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class MergeSort {
 
-    public static void merge(int arr[],int left_arr[],int right_arr[],int l,int r)
+    public static void merge(int arr[],int l,int mid, int r)
     {
+        
+        
+        // In case of even n, both will contain equal elements
+        // in case of odd n, left will contain one more element(compulsory),
+        // otherwise in case of even elements left will fail
+        // mid-l+1 is neccessary
+        int n1  =   mid-l+1;
+        int n2  =   r-mid;
+        
+        int left_arr[]  = new int[n1];   //elements from index=0 to mid
+        int right_arr[] = new int[n2];  // elements from index=mid+1 to r
+       
+        /*
+         *  At this point of time subarrays ranges in original arrays are sorted individually
+         *  So we can copy them into sub arrays and then copy back to original array
+         *  after merging
+         */
+       
+        for(int i=0;i<n1;i++)
+        {
+            left_arr[i] = arr[l+i];
+        }
+        for(int j=0;j<n2;j++)
+        {
+            right_arr[j] = arr[mid+j+1];
+        }
+        
         int i = 0;
         int l_length = left_arr.length;
         int j = 0;
@@ -37,35 +64,11 @@ public class MergeSort {
         
         int mid = l + (r-l)/2;
         
-        // In case of even n, both will contain equal elements
-        // in case of odd n, left will contain one more element(compulsory),
-        // otherwise in case of even elements left will fail
-        // mid-l+1 is neccessary
-        int n1  =   mid-l+1;
-        int n2  =   r-mid;
-        
-        int left_arr[]  = new int[n1];   //elements from index=0 to mid
-        int right_arr[] = new int[n2];  // elements from index=mid+1 to r
-        
-        /*
-         * If I do like this, then left and right array contains
-         * original array elements
-         * Both subarrays are not sorted
-         * so can't use them in merge function
-         */
-        for(int i=0;i<n1;i++)
-        {
-            left_arr[i] = arr[l+i];
-        }
-        for(int j=0;j<n2;j++)
-        {
-            right_arr[j] = arr[mid+j+1];
-        }
-        
+       
         merge_sort(arr,l,mid);
         merge_sort(arr,mid+1,r);
         
-        merge(arr,left_arr,right_arr,l,r);
+        merge(arr,l,mid,r);
     }
     public static void main(String[] args) {
         int arr[] = {5,2,3,1};
