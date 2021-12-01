@@ -85,7 +85,20 @@ public class MergeSort {
         
         int mid = l + (r-l)/2;
         
-       
+        /*
+         * Passing l,mid+1 and mid,r will lead to stack overflow
+         * Bcs when there are two elements left
+         * mid = first element always
+         * 
+         * merge_sort(arr,l,mid-1)-> sort 0 elements
+         * merge_sort(arr,mid,r) -> sort 2 elements
+         * 
+         * so call to sort 2 elements will keep on doing
+         * 
+         * But when 
+         * merge_sort(arr,l,mid); -> sort first element
+         * merge_sort(arr,mid+1,r); -> sort second element
+         */
         merge_sort(arr,l,mid);
         merge_sort(arr,mid+1,r);
         
