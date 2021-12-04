@@ -22,6 +22,18 @@
  *  if list A and list B have the same length, this solution will 
  *  terminate in no more than 1 traversal; if both lists have different lengths,
  *   this solution will terminate in no more than 2 traversals
+ *   
+ *   Suppose difference bw a and b length is x
+ *   a = b +x
+ *   
+ *   After first iteration(when both pointers are reset to other lists)
+ *   B = b+c+x (assume b<a)
+ *   A = a+c
+ *   
+ *   A-B = a-b-x = 0 (a = b+x)
+ *   that means this first iteration has counter acted the difference bw
+ *   length of LL. Therefore value of x doesn't matter
+ *   Now both A and B are equidistant from intersection point
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
