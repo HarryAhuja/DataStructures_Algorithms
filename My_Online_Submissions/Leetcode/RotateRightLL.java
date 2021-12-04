@@ -1,5 +1,10 @@
 /*
  *   In this question k can be greater than n
+ *   
+ *   In this question, getting n is important since we want to do
+ *   k%n
+ *   Once we got n, no need of slow and fast algo
+ *   Just go to n-k nodes from front
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
