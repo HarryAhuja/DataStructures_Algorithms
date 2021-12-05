@@ -21,25 +21,31 @@ public class OddEvenList {
     {
         if(head ==null || head.next==null)  return head;
         
-        LinkedListNode odd = head, even, odd_head = head,even_head = head.next,connector = null;
-        int count = 0;
-        
-        while(odd!=null)
+        LinkedListNode odd = head, even = head.next, odd_head = head,even_head = head.next,
+                             connector = odd;
+
+        while(true)
         {
-            // Keep it on top to place connector at right place
-            // if kept at last, connector will be wrong for odd nodes
-            count++;
-            if((count&0x1)==1)  connector = odd;
+            /*
+             * Write a top of while bcs there are break statements in between
+             * if break happens connector will not point to last odd node
+             */
+            connector = odd;
             
-            even = odd.next;
+            if(odd.next!=null)
+                odd.next = odd.next.next;
             
-            if(even == null)    break;
+            // condition on even for break is bcs in case of odd/even, even
+            // will point to null or next null before odd bcs first node is
+            // considered as even
             
-            odd.next = even.next;
-           
-            // change odd to next node at last always
-            // after all operations
-            odd  = even;
+            if(even==null || even.next==null)   break;
+            
+            even.next = even.next.next;
+            
+            odd  = odd.next;
+            even = even.next;
+            
             
         }
         
