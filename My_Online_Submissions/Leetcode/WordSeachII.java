@@ -14,6 +14,15 @@
  *   
  *  j=0         a
  *  j=1         b
+ *  
+ *  How trie reduces complexity
+ *  
+ *  a   a   a
+ *  a   a   a       "aaaaaaaaaa","abcd","aaaabcd"
+ *  a   a   a
+ *  
+ *  In normal case, we have to traverse all 3 words to check if its first char
+ *  is matching a i,j cell but with trie in can find that in O(1)
  * 
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
@@ -75,6 +84,12 @@ public class WordSeachII
            // after checking for oath, it should go to oathify also bcs same prefix is there
            // in trie approach, we don't again iterate over another words. So if we dont iterate
            // over oathify now, it will be skipped
+            
+           // also suppose from starting cell of oath, oath will be visited as well as
+           // oathify bcs we are not returning
+           // but actually starting cell of oath and oathify are different. So from cell
+           // of oathify, trie will again be traversed but since it will not find any
+           // word bcs of null, it will not add to list
         }
         
         // mark cell visited for current word
