@@ -15,7 +15,7 @@ public class RatInMaze {
         if(i==n-1 && j==m-1 && M[i][j]==1)
         {
             // M is checked bcs is safe is not called for this i and j
-            // if at last position, path is blocked then 
+            // if at last position, path is blocked then sol is not possibles
             visited[i][j] = true;
             return true;
         }
