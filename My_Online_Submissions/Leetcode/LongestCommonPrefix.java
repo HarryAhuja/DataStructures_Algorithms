@@ -15,8 +15,17 @@ public class LongestCommonPrefix {
         
         String ans = "";
         
+        String prefix = inp[0];
         
-        return ans;
+        for(int i=1;i<n;i++)
+        {
+            while(inp[i].startsWith(prefix)==false)
+            {
+                prefix = prefix.substring(0,prefix.length()-1);
+            }
+        }
+        
+        return prefix;
         
     }
     public static void main(String[] args) {
