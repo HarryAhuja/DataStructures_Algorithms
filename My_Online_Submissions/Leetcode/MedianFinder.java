@@ -36,6 +36,11 @@ public class MedianFinder {
                 max_heap.offer(min_heap.poll());
                 min_heap.offer(num);
             }
+            // handles both cases
+            // when min=max size==0, than also sizes are equal but push to max heap
+            // size equal doesn't mean it should be pushed to max heap bcs max heap
+            // size can be 1 greater. It only pushes to max heap if num>max_heap.peek()
+            // (intented to)
             else
             {
                 max_heap.offer(num);
