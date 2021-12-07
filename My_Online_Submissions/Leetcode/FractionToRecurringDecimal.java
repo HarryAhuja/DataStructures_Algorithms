@@ -50,6 +50,14 @@ public class FractionToRecurringDecimal
         // dont't write (long) Math.abs(numerator)
         // bcs numerator is int. So if -2147483648 is passed as int
         // -2147483648 is returned
+        /*
+         * Integer.MIN_VALUE is -2147483648, but the highest value a 32 bit integer can
+         * contain is +2147483647. Attempting to represent +2147483648 in a 32 bit int 
+         * will effectively "roll over" to -2147483648. This is because, when using
+         *  signed integers, the two's complement binary representations of +2147483648 
+         *  and -2147483648 are identical. This is not a problem, however, as +2147483648
+         *   is considered out of range.
+         */
         long num    = Math.abs((long)numerator);
         long den    = Math.abs((long)denominator);
         
