@@ -48,6 +48,8 @@ public class CountAndSay {
             // otherwise count and ascii will be added
             current.append(count+""+prev.charAt(j-1));
             
+            // new string builder needs to be created otherwise will point to
+            // same string and set length will make it 0
             prev    = new StringBuilder(current);
             current.setLength(0);
         }
