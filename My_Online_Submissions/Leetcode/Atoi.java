@@ -13,6 +13,16 @@
  * 
  * either store crossed value in long and than compare with integer limits 
  * or instead of using long compare it without storing
+ * 
+ * Long i=(Integer.MAX_VALUE-2)*1L;  -> *1L to convert it into long
+ *   
+ * for(;i<Integer.MAX_VALUE+5L;i++)     
+ * 
+ * if i<Integer.MAX_VALUE+5  -> Integer.MAX_VALUE+5 will be converted to int bcs both
+ * constants are integer-> it will overlflow and become false
+ * 
+ * Integer.MAX_VALUE+5L -> it will be actual value bcs of long
+ * 
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
@@ -20,7 +30,7 @@ public class Atoi {
 
     public static int myAtoi(String s)
     {
-        Long parsed = 0L ; 
+        int parsed  = 0 ; 
         int i       = 0;
         
         int n       = s.length();
@@ -41,16 +51,24 @@ public class Atoi {
         while(i<n && s.charAt(i)>='0' && s.charAt(i)<='9')
         {
             int c = s.charAt(i)-'0'; 
+            
+            // (Long)(parsed*10+c)
+            // (Long)(parsed*10+c)*1L
+            // (parsed*10+c)*1L 
+            // all these will not work since parsed*10 both are int and 
+            // have already wrapped around
+            if( (parsed*10L+c)>Integer.MAX_VALUE)    
+                return (is_pos==1)?Integer.MAX_VALUE:Integer.MIN_VALUE;
+            
             parsed = parsed*10+c;
             
-            if(parsed>Integer.MAX_VALUE)    
-                return (is_pos==1)?Integer.MAX_VALUE:Integer.MIN_VALUE; 
+             
             i++;
         }
         
         parsed = parsed*is_pos;
         
-        return parsed.intValue();
+        return parsed;
     }
     public static void main(String[] args) {
         
