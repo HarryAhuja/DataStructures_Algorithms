@@ -3,7 +3,7 @@
  * k = 3
  * freq of a is 3
  * freq of b and c<k
- * So there is no substring as a ans
+ * So there is no substring with b and c in bw as a ans
  * 
  * 1st approach: just check if freq of a >=k, if yes include it
  * this is wrong bcs we need to add all a's >=k not just single a
@@ -46,7 +46,7 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 import java.util.HashMap;
 
 public class LongestSubstringWithAtLeastKRep {
-    static 
+     
     static public int longestSubstring(String s, int k)
     {
         int n = s.length();
@@ -62,33 +62,37 @@ public class LongestSubstringWithAtLeastKRep {
             freq[s.charAt(i)-'a']++;
         }
         
-        int i = 0;
-        while(i<n && (freq[s.charAt(i)-'a']<k))
+        boolean flag = true;
+        
+        for(int i=0;i<26;i++)
         {
-            i++;
-        }
-
-        // no character has >=k
-        //"abcd"
-        if(i==n)    return 0;
-        
-        
-        
-        while(i<n && (freq[s.charAt(i)-'a']>=k))
-        {
-            i++;
+            // only check occurred chars freq>0 
+            if(freq[i]>0 && freq[i]<k)
+            {
+                flag = false;
+                break;
+            }
         }
         
+        // if all chars appear >=k time
+        if(flag==true)  return s.length();
         
-        /
-        end = i;
+        int start = 0, curr = 0;
         
-        if(i==n)    break;
+        while(curr<s.length())
+        {
+            if(freq[s.charAt(curr)-'a']<k)
+            {
+                // This is breakpoint of string
+                max = Math.max(max, longestSubstring(s.substring(start,curr),k));
+                start = curr+1; // record start so that during next recursion call 
+                // substring should go from start->curr not 0->curr
+            }
+            curr++;
+        }
+        max = Math.max(max, longestSubstring(s.substring(start,curr),k));
         
-        max = Math.max(max, end-start);
-        
-        
-        
+        return max;
     }
     public static void main(String[] a)
     {
