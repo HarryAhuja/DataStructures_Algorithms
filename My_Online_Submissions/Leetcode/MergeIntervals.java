@@ -26,6 +26,23 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+class Interval
+{
+    int start;
+    int end;
+    
+    public Interval()
+    {
+        start = 0;
+        end   = 0;
+    }
+    public Interval(int s,int e)
+    {
+        start = s;
+        end   = 0;
+    }
+}
+
 class NodeComparator implements Comparator<int[]>
 {
     public int compare(int[] n1,int[] n2)
@@ -43,41 +60,42 @@ public class MergeIntervals {
         int n = inp.length;
         if(n<=1)    return inp;
         
-        List<int[]> result = new ArrayList<>();
+        List<Interval> result = new ArrayList<>();
         Arrays.sort(inp,new NodeComparator());
         
-       
-        // this is new overlapped interval
-        int prev_entry[] = inp[0];
-        
-        // we are adding array reference to list
-        // that means we can change the element inside the list after adding also
-        result.add(prev_entry);
-        // first entry is added as such in the list
-        // if any overlapping interval, it will be updated in the list
+
+        int start = inp[0][0];
+        int end   = inp[0][1];
         
         int i = 1;
         while(i<n)
         {            
             // if current starting point <= prev end point
-            if(inp[i][0]<=prev_entry[1])
+            if(inp[i][0]<=end)
             {
-                // element inside the list is updated
-                prev_entry[1] = Math.max(inp[i][1], prev_entry[1]);
+                end = Math.max(inp[i][1], end);
             }
             else
             {
-                prev_entry = inp[i];
-                result.add(prev_entry);
-                // add new entry in list
-                // if any overlapping interval with this, update inside the list
-                // if not remain as it is the list
+                // add the disjoint not overlapped interval
+                result.add(new Interval(start,end));
+                
+                start = inp[i][0];
+                end   = inp[i][1];
             }
             i++;
         }
+        // add last interval
+        result.add(new Interval(start,end));
         
-        // Convert List of 1d array to 2d array
-        return result.toArray(new int[result.size()][]);
+        
+        int ans[][] = new int[result.size()][2];
+        for(int x=0;x<result.size();x++)
+        {
+            ans[x][0] = result.get(x).start;
+            ans[x][1] = result.get(x).end;
+        }
+        return ans;
     }
     public static void main(String[] args) {
         int inp[][] = {{1,4},{0,2},{3,5}};
