@@ -39,7 +39,7 @@ class Interval
     public Interval(int s,int e)
     {
         start = s;
-        end   = 0;
+        end   = e;
     }
 }
 
