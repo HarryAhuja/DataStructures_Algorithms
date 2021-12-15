@@ -11,60 +11,58 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class ShortestPathInGridWithObstacleElimination
 {
-    int ans = Integer.MAX_VALUE;;
+    static  int  ans = Integer.MAX_VALUE;;
     
-    public boolean is_safe(int grid[][],int r,int c,boolean visited[][])
+    public static  boolean is_valid_index(int grid[][],int r,int c)
     {
         if(r<0 || c<0 || r>=grid.length || c>=grid[0].length)
             return false;
-        else if(visited[r][c]==true)
-            return false;
         return true;
     }
-    public void shortest_path_helper(int grid[][],int k,int i,int j, boolean visited[][],int path)
+    
+    public static  boolean is_destination(int grid[][],int r,int c)
     {
-        if((i==grid.length-1) && (j==grid[0].length-1))
+        if((r==grid.length-1) && (c==grid[0].length-1))   return true;
+        else                                        return false;
+    }
+    
+    public static  boolean can_pass(int grid[][],int r,int c,int k)
+    {
+        if(grid[r][c]==0 || (grid[r][c]==1 && k>0)) return true;
+        else                                        return false;
+    }
+    
+    
+    public static  void shortest_path_helper(int grid[][],int k,int i,int j, boolean visited[][],int path)
+    {
+        
+        if(is_valid_index(grid,i,j) && (visited[i][j]== false) && can_pass(grid,i,j,k))
         {
-            // no need of safety checking. Value will be always 0 as given
             visited[i][j] = true;
             
-            ans = Math.min(ans, path);
-            
-            return;
-        }
-        
-        
-        
-        if(is_safe(grid,i,j,visited))
-        {
-            visited[i][j] = true;
-            
-            if(grid[i][j]==0)
+            if(is_destination(grid, i, j))
             {
-                shortest_path_helper(grid,k,i,j+1,visited,path+1);
-                
-                shortest_path_helper(grid,k,i+1,j,visited,path+1);
-                
-                shortest_path_helper(grid,k,i,j-1,visited,path+1);
-                
-                shortest_path_helper(grid,k,i-1,j,visited,path+1);
+                ans = Math.min(ans, path);
             }
             else
             {
-                if(k>0) shortest_path_helper(grid,k-1,i,j+1,visited,path+1);
+                path++;
                 
-                if(k>0) shortest_path_helper(grid,k-1,i+1,j,visited,path+1);
+                k = (grid[i][j]==1)?k-1:k;
                 
-                if(k>0) shortest_path_helper(grid,k-1,i,j-1,visited,path+1);
+                shortest_path_helper(grid,k,i,j+1,visited,path);
                 
-                if(k>0) shortest_path_helper(grid,k-1,i-1,j,visited,path+1);
+                shortest_path_helper(grid,k,i+1,j,visited,path);
+                
+                shortest_path_helper(grid,k,i,j-1,visited,path);
+                
+                shortest_path_helper(grid,k,i-1,j,visited,path);
             }
-            
             
             visited[i][j] = false;
         }
     }
-    public int shortestPath(int[][] grid, int k)
+    public static int shortestPath(int[][] grid, int k)
     {
         int n = grid.length;
         int m = grid[0].length;
@@ -76,5 +74,12 @@ public class ShortestPathInGridWithObstacleElimination
         shortest_path_helper(grid,k,0,0,visited,0);
          
         return (ans==Integer.MAX_VALUE?-1:ans);
+    }
+    
+    public static void main(String[] a)
+    {
+            int mat[][] = {{0,0,0},{1,1,0},{0,0,0},{0,1,1},{0,0,0}};
+            int k = 1;
+            System.out.println(shortestPath(mat,k));
     }
 }
