@@ -1,44 +1,37 @@
 /*
- *  Time complexity = O(m+n)
- *  iterate one row and one col competely
+ * Suppose first element of row is greater than last element of previous row
  */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
-import datastructures.DataStructures_Algorithms.Library_Api.BinarySearch;
+import java.util.ArrayList;
 
 public class Search2dMatrix {
     
-    public static boolean searchMatrix(int[][] matrix, int target)
+    public int searchMatrix(ArrayList<ArrayList<Integer>> A, int B)
     {
+        int n    = A.size();
+        int m    = A.get(0).size();
+        int low  = 0;
+        int high = (n*m)-1;
         
-        int i = matrix.length-1;
-        int j = 0;
-        
-        while(i>=0 && j<matrix[0].length)
+        while(low<=high)
         {
-            if(target==matrix[i][j])
+            int mid  = low+(high-low)/2;
+            
+            if(B==A.get(mid/m).get(mid%m))
             {
-                return true;
+                return 1;
             }
-            else if(target>matrix[i][j])
+            else if(B>A.get(mid/m).get(mid%m))
             {
-                j++;
+                low = mid+1;
             }
             else
             {
-                i--;
+                high = mid-1;
             }
         }
-        return false;
+        return 0;
     }
-    public static void main(String[] args) {
-        int matrix[][] = {
-                            {1},
-                            {3},
-                            {5}
-                         };
-        int target = 1;
-        
-        System.out.println(searchMatrix(matrix,target));
-    }
+    
 }
