@@ -35,47 +35,102 @@
 */
 package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
+import java.util.HashMap;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-
+class DLL_Node
+{
+    Character c;
+    int index;
+    DLL_Node next;
+    DLL_Node prev;
+    
+    public DLL_Node(Character c,int i)
+    {
+        this.c = c;
+        index  = i;
+        next = prev = null;
+    }
+}
 
 public class first_unique_char
 {
+    static DLL_Node head;
+    static DLL_Node tail;
+    
+    public static void add_char(char c,int index, HashMap<Character,DLL_Node> hm,boolean visited[])
+    {
+        visited[c-'a'] = true;
+        
+        if(head==null)
+        {
+            head = new DLL_Node(c,index);
+            tail = head;
+            hm.put(c, head);
+        }
+        else
+        {
+            DLL_Node new_node = new DLL_Node(c,index);
+            tail.next     = new_node;
+            new_node.prev = tail;
+            tail          = tail.next;
+            hm.put(c, tail);
+        }
+    }
+    
+    public static void delete_char(char c,HashMap<Character,DLL_Node> hm)
+    {
+        DLL_Node ref = hm.get(c);
+        
+        // bcs we are putting null instead of removing
+        if(ref==null)   return;
+        
+        //instead of removing, put null
+        hm.put(c, null);
+        
+        // remove from DLL
+        
+        if(ref==head)
+        {
+            if(head.next!=null) head.next.prev  = null;
+            head = head.next;
+        }
+        else if(ref==tail)
+        {
+            if(tail.prev!=null) tail.prev.next = null;
+            tail = tail.prev;
+        }
+        else
+        {
+            if(ref.prev!=null)  ref.prev.next = ref.next;
+            if(ref.next!=null)  ref.next.prev = ref.prev;
+        }
+    }
     public static int firstUniqChar(String s) {
         
         int len = s.length();
         
         if(0 == len)    return -1;
 
-        int index_arr[] = new int[26];
-        
-        // Dont fill with this -1 bcs -1 is the flag for freq>=2
-        // you can't differentiate bw initial and freq>=2 case
-        Arrays.fill(index_arr, len);
+        HashMap<Character,DLL_Node> hm = new HashMap<>();
+        boolean visited[] = new boolean[26];
         
         for(int i=0;i<len;i++)
         {
-            int ascii_offset = s.charAt(i)-'a';
+            char c = s.charAt(i);
             
-            if(index_arr[ascii_offset] == len)      index_arr[ascii_offset] = i;
-            else if(index_arr[ascii_offset]!=len)   index_arr[ascii_offset] = -1;
+            if(visited[c-'a']==false)
+            {
+               add_char(c,i,hm,visited);
+            }
+            else
+            {
+               delete_char(c,hm);
+            }
         }
         
-        int ans = len;
-        for(int i=0;i<26;i++)
-        {
-            if(index_arr[i]!=-1 && index_arr[i]!=len)    ans = Math.min(ans, index_arr[i]);
-        }
+        if(head==null)  return -1;
         
-        return (ans==len)?-1:ans;
-        
+        return head.index;
     }
     public static void main(String[] args)
     {
@@ -83,8 +138,8 @@ public class first_unique_char
 
         //inp = new String("leetcode");
         //inp = new String("aabb");
-        //inp = new String("bd");
-        inp = new String("dddccdbba");
+        inp = new String("bd");
+        //inp = new String("dddccdbba");
 
         System.out.println(firstUniqChar(inp));
     }
