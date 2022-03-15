@@ -2,7 +2,6 @@ package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
 
 public class MinimumFallingPathSum {
 
-    static int min = Integer.MAX_VALUE;
     static int dp[][] =new int[105][105];
     
     public static boolean isSafe(int n,int row,int col)
@@ -11,36 +10,44 @@ public class MinimumFallingPathSum {
             return false;
         return true;
     }
-    public static void minimumPathHelper(int mat[][],int n,int row,int col,int sum)
+    public static int minimumPathHelper(int mat[][],int n,int row,int col,int sum)
     {
         if(isSafe(n,row,col)==false)
         {
-            return ;
+            return Integer.MAX_VALUE;
         }
+        
+        if(dp[row][col]!=Integer.MAX_VALUE) return dp[row][col];
         
         if(row==n-1)
         {
-            sum = sum+mat[row][col];
-            min = Math.min(min, sum);
+            return mat[row][col];
         }
         else
         {
-            minimumPathHelper(mat,n,row+1,col,sum+mat[row][col]);
+            int a = minimumPathHelper(mat,n,row+1,col,sum+mat[row][col]);
             
-            minimumPathHelper(mat,n,row+1,col-1,sum+mat[row][col]);
+            int b = minimumPathHelper(mat,n,row+1,col-1,sum+mat[row][col]);
             
-            minimumPathHelper(mat,n,row+1,col+1,sum+mat[row][col]);
+            int c = minimumPathHelper(mat,n,row+1,col+1,sum+mat[row][col]);
+            
+            dp[row][col] = Math.min(Math.min(a, b),c)+mat[row][col];
+            
+            return dp[row][col];
             
         }
    
     }
     public static int minimumPath(int mat[][])
     {
+        int min = Integer.MAX_VALUE;
+        
         for(int i=0;i<mat.length;i++)
         {
-            minimumPathHelper(mat,mat.length,0,i,0);
+            min = Math.min(min,minimumPathHelper(mat,mat.length,0,i,0));
         }
         return min;
+        
     }
     public static void main(String[] args) {
         
