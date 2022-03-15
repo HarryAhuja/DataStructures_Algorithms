@@ -1,5 +1,10 @@
+/*
+ * 
+ * We only need count not exact chars
+ */
+
 class Solution {
-    static char letters[] = new char[] {'a','l','p'};
+    
     static int mod = (int)Math.pow(10,9)+7;
     
     static int dp[][][] = new int[100005][3][2];
@@ -20,32 +25,27 @@ class Solution {
         
         int ans = 0;
         
-        for(int i=0;i<3;i++)
-        {
-            char c = letters[i];
+        
             
-            // add only if we dont have a single a
-            if(c=='a' && a<1)
-            {
-                
-                ans+=MaxEligibleCount(n-1,0,a+1);
-                
-            }
-            // can add only we have not more than 2 consecutive L's
-            else if(c=='l' && l<2)
-            {
-               
-                ans+=MaxEligibleCount(n-1,l+1,a);
-                
-            }
-            else if(c=='p')
-            {
-               
-                ans+=MaxEligibleCount(n-1,0,a);
-              
-            }
+        // add only if we dont have a single a
+        if(a<1)
+        {
+            ans+=MaxEligibleCount(n-1,0,a+1);
             ans%=mod;
         }
+        // can add only we have not more than 2 consecutive L's
+        if(l<2)
+        {
+            ans+=MaxEligibleCount(n-1,l+1,a);
+            ans%=mod;
+            
+        }
+            
+               
+        ans+=MaxEligibleCount(n-1,0,a);
+          
+        ans%=mod;
+        
         
         dp[n][l][a] = ans;
         
