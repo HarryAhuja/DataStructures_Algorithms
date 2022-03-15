@@ -1,25 +1,20 @@
-package datastructures.DataStructures_Algorithms.My_Online_Submissions.Leetcode;
-
-import java.util.HashMap;
-
-public class StudentAttendanceII {
-
+class Solution {
     static char letters[] = new char[] {'a','l','p'};
     static int mod = (int)Math.pow(10,9)+7;
     
-    static HashMap<String,Integer> hm= new HashMap<String,Integer>();
+    static int dp[][][] = new int[100005][3][2];
     
-    public static int MaxEligibleCount(StringBuilder str,int n,int l,int a)
+    public static int MaxEligibleCount(int n,int l,int a)
     {
-        String pattern = n+""+l+""+a;
-        if(hm.containsKey(pattern))
+        
+        if(dp[n][l][a]!=0)
         {
-            return hm.get(pattern);
+            return dp[n][l][a];
         }
         
         if(n==0)
         {
-            System.out.println(str);
+            
             return 1;
         }
         
@@ -32,37 +27,31 @@ public class StudentAttendanceII {
             // add only if we dont have a single a
             if(c=='a' && a<1)
             {
-                str.append(c);
-                ans+=MaxEligibleCount(str,n-1,0,a+1);
-                str.deleteCharAt(str.length()-1);
+                
+                ans+=MaxEligibleCount(n-1,0,a+1);
+                
             }
             // can add only we have not more than 2 consecutive L's
             else if(c=='l' && l<2)
             {
-                str.append(c);
-                ans+=MaxEligibleCount(str,n-1,l+1,a);
-                str.deleteCharAt(str.length()-1);
+               
+                ans+=MaxEligibleCount(n-1,l+1,a);
+                
             }
             else if(c=='p')
             {
-                str.append(c);
-                ans+=MaxEligibleCount(str,n-1,0,a);
-                str.deleteCharAt(str.length()-1);
+               
+                ans+=MaxEligibleCount(n-1,0,a);
+              
             }
             ans%=mod;
         }
         
-        hm.put(pattern,ans);
+        dp[n][l][a] = ans;
         
         return ans;
     }
-    public static void main(String[] args) {
-       
-        int n = 2;
-        System.out.println(mod);
-        StringBuilder str = new StringBuilder(); 
-        System.out.println(MaxEligibleCount(str,n,0,0));
-
+    public int checkRecord(int n) {
+        return MaxEligibleCount(n,0,0);
     }
-
 }
