@@ -10,7 +10,7 @@ public class MinimumFallingPathSum {
             return false;
         return true;
     }
-    public static int minimumPathHelper(int mat[][],int n,int row,int col,int sum)
+    public static int minimumPathHelper(int mat[][],int n,int row,int col,int sum,int visited[][])
     {
         if(isSafe(n,row,col)==false)
         {
@@ -21,17 +21,34 @@ public class MinimumFallingPathSum {
         
         if(row==n-1)
         {
+            visited[row][col] = 1;
+            
+            for(int i=0;i<n;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    System.out.print(visited[i][j]+" ");
+                }
+                System.out.println();
+            }
+            visited[row][col] = 0;
+            System.out.println();
+            System.out.println();
             return mat[row][col];
         }
         else
         {
-            int a = minimumPathHelper(mat,n,row+1,col,sum+mat[row][col]);
+            visited[row][col] = 1;
             
-            int b = minimumPathHelper(mat,n,row+1,col-1,sum+mat[row][col]);
+            int a = minimumPathHelper(mat,n,row+1,col,sum+mat[row][col],visited);
             
-            int c = minimumPathHelper(mat,n,row+1,col+1,sum+mat[row][col]);
+            int b = minimumPathHelper(mat,n,row+1,col-1,sum+mat[row][col],visited);
+            
+            int c = minimumPathHelper(mat,n,row+1,col+1,sum+mat[row][col],visited);
             
             dp[row][col] = Math.min(Math.min(a, b),c)+mat[row][col];
+            
+            visited[row][col] = 0;
             
             return dp[row][col];
             
@@ -41,17 +58,18 @@ public class MinimumFallingPathSum {
     public static int minimumPath(int mat[][])
     {
         int min = Integer.MAX_VALUE;
+        int visited[][] = new int[mat.length][mat.length];
         
         for(int i=0;i<mat.length;i++)
         {
-            min = Math.min(min,minimumPathHelper(mat,mat.length,0,i,0));
+            min = Math.min(min,minimumPathHelper(mat,mat.length,0,i,0,visited));
         }
         return min;
         
     }
     public static void main(String[] args) {
         
-        int mat[][] = new int[][]{{-48}};
+        int mat[][] = new int[][]{{2,1,3},{6,5,4},{7,8,9}};
         
         for(int i=0;i<105;i++)
         {
